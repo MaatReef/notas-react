@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción React</title>
+    <link rel="shortcut icon" type=image/jpg href="../../img/logo/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <div class="context">
+        <a href="../4/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../6/index.html">Siguiente</a>
+    </div>
+    <div class="contenido" id="arriba">
+        <p>React - Notas</p>
+    </div>
+
+    <h1>5 - React Router</h1>
+    <ul>
+        <li>
+            <a href="#1">5.1 - Iniciando y limpiando un proyecto nuevo</a>
+        </li>
+        <li>
+            <a href="#2">5.2 - Integrando EDgrid al proyecto</a>
+        </li>
+        <li>
+            <a href="#3">5.3 - Componente presentacional Header</a>
+        </li>
+        <li>
+            <a href="#4">5.4 - Estructura de carpetas para componentes</a>
+        </li>
+        <li>
+            <a href="#5">5.5 - Creando componentes de páginas</a>
+        </li>
+        <li>
+            <a href="#6">5.6 - Usando react router</a>
+        </li>
+        <li>
+            <a href="#7">5.7 - Componentes Switch y Route</a>
+        </li>
+        <li>
+            <a href="#8">5.8 - Componente Link</a>
+        </li>
+        <li>
+            <a href="#9">5.9 - Componente NavLink y hooks de react router</a>
+        </li>
+    </ul>
+
+    <p id="1">1. Iniciando y limpiando un proyecto nuevo</p>
+    <pre>
+        ------------------------------------------------------
+        Haremos ahora una -> Mini Aplicación para la venta de cupcakes / Galería. 
+        
+        En la terminal..
+        
+            -> npx create-react-app edcupcake			Crear la aplicación
+        
+            -> cd edcupcake						Ingresamos la carpeta
+        
+            -> code .						- Vs code.
+        
+            -> yarn start
+        --------------------------------------------------------
+            En vsCode, limpiamos lo que no vamos a utilizar..
+        Eliminamos archivos..
+        - En la carpeta src SOLO dejamos el App.js y index.js
+        --------------------------------------------------------
+            -> En el archivo index.js
+        
+        <code> 
+        import { StrcitMode } from 'react';
+        import { render } from 'react-dom';
+        import App from './App';
+        
+        render (
+            < StrictMode>
+                < App />
+            < StrictMode>
+            document.getElementById('root')
+        );
+        </code>
+        --------------------------------------------------------
+            -> el App.js
+
+        <code>
+        import logo from './logo.svg';
+        import './Appc.cs';
+        
+        const App = () => (
+            < h1>Cupcake< /h1>
+        )
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            -> En el package Json..
+        
+        Quitamos las librerías de @testing y web-vitals en "dependencies"
+        
+        
+        Desde la terminal
+        
+            -> yarn				-> Actualiza lo que hayamos quitado o agregado en el proyecto
+        
+            -> yarn start			-> Levantamos el servidor.
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="2">2. Integrando EDgrid al proyecto</p>
+    <pre>
+        --------------------------------------------------------
+        -> Librería de Edteam EDgrid	-> ed-grid.com		- Con cdn, con npm, etc.
+                        -> ux.ed.team		- Librería que especifica como se construyo Edteam
+    
+    
+        Desde la terminal.. Sin detener el proyecto (en otra pestaña)
+        
+            -> yarn add ed-grid edteam-style-guides sass			-> Instalamos las 2 librerías y la librería de sass
+        
+        
+        Ahora en vscode..
+            - Veremos las librerías instaladas		
+        --------------------------------------------------------
+            - Dentro de la carpeta src..
+                Creamos la carpeta styles		-> Buena práctica, pondremos las hojas de estilos en formato scss
+        
+        Creamos el archivo styles.scss
+        
+        <code>
+        @import "~ed-grid";
+        @import "~edteam-style-guides/edteam-style-guides";
+        </code>
+        --------------------------------------------------------
+            En el componente App.js.. Que es el centro de la app..
+    
+        <code>
+        import "./styles/styles.scss"			-> Afecta a todos los estilos del navegador.
+        
+        const App = () => (
+            < h1>Cupcake< /h1>
+        )
+        
+        export default App;
+        </code>
+            *En caso de no ver la actualización detener el servidor y volver a lanzarlo*
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="3">3. Componente presentacional Header</p>
+    <pre>
+        --------------------------------------------------------
+        En la página de ux.ed.team		-> Inspeccionar el header, editar como html		-> Y copiamos la estructura.
+    
+        <code>   
+        import "./styles/styles.scss"			
+        
+        const App = () => (
+                            -> El header lo llevamos a un nuevo archivo	
+        )
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            Creamos el archivo Header.js
+        
+        <code>
+        const Header = () => (
+        
+            < header class="main-header">
+            
+                < div class="ed-grid s-grid-5 lg-grid-4">
+                
+                    < div class="s-cols-4 lg-cols-1 s-cross-center">
+                        < a href="/">										-> Agregar el cierre al img
+                            < img class="main-logo" src="https://ux.ed.team/img/edteam-ux.svg" alt="Logo Cupcake" />		
+                        < /a>
+                    < /div>
+                
+                    < div class="s-grid-1 lg-cols-3 s-cross-center s-main-end header-links">
+                
+                        < nav class="main-menu" id="main-menu">
+        
+                            < ul>
+                    
+                                < li>< a href="/">Inicio< /a>< /li>
+                
+                                < li>< a href="/cupcakes">Cupcakes< /a>< /li>
+        
+                                < li>< a href="/nosotros">Nosotros< /a>< /li>
+        
+                            < /ul>
+                
+                        < /nav>
+                
+                        < div class="main-menu-toggle to-l" id="main-menu-toggle">< /div>
+                
+                    < /div>
+            
+                < /div>
+            
+            < /header>
+        )
+        
+        export default Header
+        </code>
+        --------------------------------------------------------
+            En el archivo App.js
+        
+        <code>
+        import Header from "./Header"			-> Importamos
+        import "./styles/styles.scss"
+        
+        const App = () => (
+            < Header />			-> Agregamos el Header desde el otro archivo
+        )
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="4">4. Estructura de carpetas para componentes</p>
+    <pre>
+        --------------------------------------------------------
+        En el archivo App.js
+        
+        <code>
+        import Header from "./Header"			
+        import "./styles/styles.scss"
+        
+        const App = () => (
+            < Header />			
+            < Inicio />			-> Podríamos agregarlo directamente, pero la carpeta src se haría gigante.
+        )							- No habría organización.
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            Optimizamos la estructura de nuestro proyecto..
+        
+        Dentro de la carpeta src, creamos al carpeta components
+            - Movemos el App.js y el Header.js
+        
+        --------------------------------------------------------
+            - Debemos actualizar la ruta del index.js
+
+        <code>    
+        import { StrcitMode } from 'react';
+        import { render } from 'react-dom';
+        import App from './components/App';			-> Actualizamos la ruta
+        
+        render (
+            < StrictMode>
+                < App />
+            < StrictMode>
+            document.getElementById('root')
+        );
+        </code>
+        --------------------------------------------------------
+                - Hay que considerar las rutas al cambiar los archivos -
+            En el archivo App.js, debemos volver a referenciar la ruta de los estilos
+        
+        <code>
+        import Header from "./Header"			
+        import "../styles/styles.scss"			-> ../ Volvemos ala carpeta superior
+        
+        const App = () => (
+            < Header />			
+        )							
+        
+        export default App
+        </code>
+        --------------------------------------------------------
+            Debemos agrupar los componentes, por tamaño, uso o bien por importancia..
+        
+        Dentro de la carpeta components, creamos la carpeta pages..
+            - Creamos los componentes propios de paginas.
+        
+        Dentro de la carpeta components, creamos la carpeta sections..
+            - Arrastramos Header.js 
+        
+            El archivo app.js ahora tendrá otra ruta
+            
+        <code>
+        import Header from "./sections/Header"			
+        import "../styles/styles.scss"			
+        
+        const App = () => (
+            < Header />			
+        )							
+        
+        export default App
+        </code>
+        --------------------------------------------------------
+            Además dentro la carpeta pages creamos los siguientes archivos..
+            - home.js
+            - cupcakes.js		-> En inglés para mejor uso
+            - aboutUs.js
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="5">5. Creando componentes de páginas</p>
+    <pre>
+        --------------------------------------------------------
+        El archivo app.js ahora debajo del header, vendrá el contenido de las páginas..
+    
+        <code>
+        import Header from "./sections/Header"			
+        import "../styles/styles.scss"			
+        
+        const App = () => (
+            < Header />			
+        )							
+        
+        export default App
+        </code>                
+        --------------------------------------------------------
+            en el archivo home.js 	-> Dentro de la carpeta pages
+
+        <code>
+        const Home = () => ( 
+            < div className="main-banner img-container dark-color">
+                        -> Le agregamos un estilo.
+                < div className="ed-grid lg-grid-6">
+                
+                    < div class="lg-cols-4 lg-x-2">
+                        < img 
+                            className="main-banner__img" 							-> Ordenar los artributos
+                            src="https://images.pexels.com/photos/265614/pexels-photo-265614.jpeg?		w=1260&amp;h=750&amp;auto=compress&amp;cs=tinysrgb" 
+                            alt="banner"/>
+                
+                        < div className="main-banner__data s-center">
+                    
+                            < p className="s-mb-0 t2">Bienvenido a Cupcakes< /p>
+                    
+                            < p>Un sitio lleno de Sabor!!!< /p>
+                            < a className="button" href="/">Ver Cupcakes< /a>
+                
+                        < /div>
+                
+                    < /div>
+            
+                < /div>
+            
+            < /div>
+        
+        )
+        
+        export default Home
+                        -> Considerar que las class.. colocaremos className
+        </code>
+        --------------------------------------------------------
+            También en el Header, cambiar class por className..
+        
+        <code>            
+        const Header = () => (
+        
+            < header className="main-header">
+            
+                < div className="ed-grid s-grid-5 lg-grid-4">
+                
+                    < div className="s-cols-4 lg-cols-1 s-cross-center">
+                        < a href="/">										
+                            < img className="main-logo" src="https://ux.ed.team/img/edteam-ux.svg" alt="Logo Cupcake" />		
+                        < /a>
+                    < /div>
+                
+                    < div className="s-grid-1 lg-cols-3 s-cross-center s-main-end header-links">
+                
+                        < nav className="main-menu" id="main-menu">
+                    
+                            < ul>
+                    
+                                < li>< a href="/">Inicio< /a>< /li>
+                
+                                < li>< a href="/cupcakes">Cupcakes< /a>< /li>
+        
+                                < li>< a href="/nosotros">Nosotros< /a>< /li>
+        
+                            < /ul>
+                
+                        < /nav>
+                
+                        < div className="main-menu-toggle to-l" id="main-menu-toggle">< /div>
+                
+                    < /div>
+            
+                < /div>
+            
+            < /header>
+        )
+        
+        export default Header
+        </code>
+        --------------------------------------------------------
+            Ahora el componente Home, debemos llamarlo desde App.js
+        
+        <code>
+        import "../styles/styles.scss"			
+        import Header from "./sections/Header"			
+        import Home from "./pages/home"					-> Agrupar por tipo de importación, agruparlos, tips.
+        import Cupcakes from "./pages/cupcakes"
+        
+        
+        const App = () => (
+            <>					-> Retornar un PADRE (Un elemento), con sus hijos.
+                < Header />			
+                < Home /> 
+            </>
+        )							
+        
+        export default App
+        </code>
+        --------------------------------------------------------
+            Creamos la página cupcakes.js
+        
+        <code>
+        const Cupcakes = () => (
+            < div>
+                < h1>Página de Cupcakes< /h1>
+            < /div>
+        )
+        
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+            Con router administraremos las rutas del navegador, de acuerdo a la posición en páginas mostraremos cierto contenido.
+                - El manejo de Rutas, lo haremos de manera dinámica
+        
+            - React Router
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    <br>
+    <br>
+
+    <p id="6">6. Usando react router</p>
+    <pre>
+        --------------------------------------------------------
+        <code>
+        import Cupcakes from "./pages/cupcakes"
+        import Header from "./sections/Header"			
+        import Home from "./pages/home"					-> Agrupar por tipo de importación, agruparlos, tips.
+        import "../styles/styles.scss"			
+        
+        
+        const App = () => (
+            <>					
+                < Header />					-> Entre {} podemos insertar el js que deseemos.
+                { window.location.pathname === "/" && < Home />}			
+                { window.location.pathname === "/cupcakes" && < Cupcakes />}		-> Rústicam manera, sin React Router
+            </>										- Funciona pero no es óptimo
+        )							
+        
+        export default App
+        </code>    
+        --------------------------------------------------------
+            reactrouter.com		-> Buena documentación, web	
+        
+        Desde consola...
+            
+            ->  yarn add react-router-dom
+        
+        Usaremos un componente < Router> que envuelve a toda la app..
+                    < link>	
+                    < Switch>	-> Un switch mira a través de sus hijos, los routes, renderizando el primero que coincida con la url actual.
+                            -  Si la ruta es /about, renderiza el componente About
+                               Así con cada página..
+                    < Route>
+        --------------------------------------------------------
+            -> EN el archivo App.js
+        
+        <code>
+        import "../styles/styles.scss"			
+        import Header from "./sections/Header"			
+        import Home from "./pages/home"					
+        import Cupcakes from "./pages/cupcakes"
+        import {
+            BrowserRouter as Router,
+            Switch						-> Importamos
+            Route	
+        
+        } from "react-router-dom"
+        
+        const App = () => (
+            < Router>					-> El Router envuelve a TODA la aplicación
+                            
+                < Header />			
+                < Switch> 	 
+                    < Route path="/">
+                        < Home />	
+                    < /Route>
+                    < Route path="/cupcakes">
+                        < Cupcakes />
+                    < /Route>
+                < /Switch>
+            < Router/>
+        )							
+        
+        export default App		
+        </code>
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    <br>
+    <br>
+
+    <p id="7">7. Componentes Switch y Route</p>
+    <pre>
+        --------------------------------------------------------
+        -> El Switch hace una búsqueda de los nombres de la Url
+        
+        <code>
+        import "../styles/styles.scss"			
+        import Header from "./sections/Header"			
+        import Home from "./pages/home"					
+        import Cupcakes from "./pages/cupcakes"
+        import AboutUs from "./pages/aboutUs";
+        import {
+            BrowserRouter as Router,
+            Switch						
+            Route	
+        
+        } from "react-router-dom";
+        
+        const App = () => (
+            < Router>					
+                            
+                < Header />						
+                < Switch> 	 				-> Primero debe ir cupcakes y luego el home
+                    < Route path="/cupcakes">					-> La última debe ser la ruta /, es decir, path="/"
+                        < Cupcakes />
+                    < /Route>
+                    < Route path="/nosotros">			-> Agregamos otra ruta.
+                        < AboutUs />				
+                    < /Route>
+        
+                    < Route path="/">
+                        < Home />				
+                    < /Route>
+                < /Switch>
+            < Router/>
+        )							
+        
+        export default App		
+        </code>
+        --------------------------------------------------------
+            Creamos el componente aboutUs.js
+        
+        <code>
+        const AboutUs = () => (
+            < div clasSName="ed-grid">
+                < h1>Nosotros< /h1>
+            < /div>
+        )
+        
+        export default AboutUs
+        </code>
+            -> Ya tenemos las páginas creadas.. 
+                Pero para el caso que tengamos muchas rutas, podemos dividir en componentes más pequeños
+        --------------------------------------------------------
+            -> En el archivo App.js
+        
+        <code>
+        import "../styles/styles.scss"			
+        import Header from "./sections/Header"			
+        import Home from "./pages/home"					
+        import Cupcakes from "./pages/cupcakes"
+        import AboutUs from "./pages/aboutUs";
+        import {
+            BrowserRouter as Router,
+            Switch						
+            Route	
+        } from "react-router-dom";
+        
+        const App = () => (
+            < Router>					
+                            
+                < Header />						
+                < Switch> 	 							
+                    < Pages />
+        
+                    < Route path="/cupcakes">< Cupcakes />< /Route>			-> Vamos agrupando en este caso en <Pages />
+                    < Route path="/nosotros">< AboutUs />< /Route>			-  Asi evitamos que crezca demasiado dado el caso.
+                    < Route path="/">< Home />< /Route>
+        
+                < /Switch>
+            < Router/>
+        )							
+        
+        export default App		
+        </code>
+        --------------------------------------------------------
+        <code>
+        import "../styles/styles.scss"			
+        import Header from "./sections/Header"			
+        import Home from "./pages/home"					
+        import Cupcakes from "./pages/cupcakes"
+        import AboutUs from "./pages/aboutUs";
+        import {
+            BrowserRouter as Router,
+            Switch						
+            Route	
+        } from "react-router-dom";
+        
+        const App = () => (
+            < Router>					
+                            
+                < Header />						
+                < Switch> 	 							
+                    < Route path="/cupcakes">< Cupcakes />< /Route>			
+                    < Route path="/nosotros">< AboutUs />< /Route>			
+                    < Route path="/">< Home />< /Route>
+                < /Switch>
+            < Router/>
+        )							
+        
+        export default App		
+        </code>
+        --------------------------------------------------------
+            -> La single Page Aplication.. Debemos usar elementos links en vez de < a>
+                    - Para evitar que la página recargue nuevamente una página en particular.
+        --------------------------------------------------------
+            
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    <br>
+    <br>
+
+    <p id="8">8. Componente Link</p>
+    <pre>
+        --------------------------------------------------------
+        Por lo tanto para usar Link en vez de < a>
+        Vamos al archivo Header.js
+    
+        <code>
+        import { Link } from "react-router-dom"			-> Importamos el componente Link, es destructurado
+        
+        const Header = () => (
+        
+            < header className="main-header">
+            
+                < div className="ed-grid s-grid-5 lg-grid-4">
+                
+                    < div className="s-cols-4 lg-cols-1 s-cross-center">
+                        < a href="/">										
+                            < img className="main-logo" src="https://ux.ed.team/img/edteam-ux.svg" alt="Logo Cupcake" />		
+                        < /a>
+                    < /div>
+                
+                    < div className="s-grid-1 lg-cols-3 s-cross-center s-main-end header-links">
+                
+                        < nav className="main-menu" id="main-menu">
+                    
+                            < ul>
+                    
+                                < li>< Link to="/">Inicio< /Link>< /li>
+                            -> Reemplazamos las a por Link
+                                < li>< Link to="/cupcakes">Cupcakes< /Link>< /li>
+                    - Y el href por to
+                                < li>< Link to="/nosotros">Nosotros< /Link>< /li>
+        
+                            < /ul>
+                
+                        < /nav>
+                
+                        < div className="main-menu-toggle to-l" id="main-menu-toggle">< /div>
+                
+                    < /div>
+            
+                < /div>
+            
+            < /header>
+        )
+        
+        export default Header
+        </code>
+        --------------------------------------------------------
+        De esta manera en una sola página, simulamos que tenemos varias páginas	-> "Simulamos Más Velocidad"
+                                                - Sin necesidad de recargar el navegador.
+            - NO usar anclas, si Link con el to=""
+        
+        *Evitar los warning desde consola o desde la Terminal*
+        
+            -> Uso básico de React ROuter.
+        --------------------------------------------------------	        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    <br>
+    <br>
+
+    <p id="9">9. Componente NavLink y hooks de react router</p>
+    <pre>
+
+        --------------------------------------------------------
+        El componente Link es pensado para toda la página..
+        Si estamos en el menú principal o del footer, usar NavLink
+            -> De esta manera señalamos que esa página estará activa, el elemento donde nos encontraremos haremos el resaltado.
+        
+        <code>
+        import { NavLink } from "react-router-dom"			
+        
+        const Header = () => (
+        
+            < header className="main-header">
+            
+                < div className="ed-grid s-grid-5 lg-grid-4">
+                
+                    < div className="s-cols-4 lg-cols-1 s-cross-center">
+                        < a href="/">										
+                            < img className="main-logo" src="https://ux.ed.team/img/edteam-ux.svg" alt="Logo Cupcake" />		
+                        < /a>
+                    < /div>
+                
+                    < div className="s-grid-1 lg-cols-3 s-cross-center s-main-end header-links">
+                
+                        < nav className="main-menu" id="main-menu">
+                    
+                            < ul>
+                    
+                                < li>< NavLink to="/" exact>Inicio< /NavLink>< /li>
+                            -> NavLink
+                                < li>< NavLink to="/cupcakes" exact>Cupcakes< /NavLink>< /li>
+                    
+                                < li>< NavLink to="/nosotros" exact>Nosotros< /NavLink>< /li>
+        
+                            < /ul>
+                
+                        < /nav>
+                
+                        < div className="main-menu-toggle to-l" id="main-menu-toggle">< /div>
+                
+                    < /div>
+            
+                < /div>
+            
+            < /header>
+        )
+        
+        export default Header
+                        -> Con exact, evitamos que considere hijos a las demás páginas..
+                            - Cada página será tomada de manera individual, independiente
+                            - Hace la comparación del pathname de forma EXACTA, exact
+                            - El color rojo viene de la guía de estilos de ed team.
+        </code>
+        --------------------------------------------------------
+        Además: Considerando el concepto principal de los Hooks.
+            En React Router.. También tenemos Hooks.
+                        - useHistory
+                        - useLocation
+                        - useParams
+                        - UseRouteMatch
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    <br>
+    <br>
+    
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="../4/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../6/index.html">Siguiente</a>
+    </div>
+
+</body>
+</html>

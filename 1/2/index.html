@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción React</title>
+    <link rel="shortcut icon" type=image/jpg href="../../img/logo/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <div class="context">
+        <a href="../1/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../3/index.html">Siguiente</a>
+    </div>
+    <div class="contenido" id="arriba">
+        <p>React - Notas</p>
+    </div>
+
+    <h1>2 - Mi primera App</h1>
+    <ul> 
+        <li><a href="#1">2.1 - Requerimientos para instalar react</a></li>
+        <li><a href="#2">2.2 - Instalando mi primera app react</a></li>
+        <li><a href="#3">2.3 - Explorando los archivos de la instalación</a></li>
+        <li><a href="#4">2.4 - Entendiendo la carpeta public</a></li>
+        <li><a href="#5">2.5 - El componente index</a></li>
+        <li><a href="#6">2.6 - El componente App</a></li>
+        <li><a href="#7">2.7 - Aclarando la importación de react</a></li>
+    </ul>
+
+    <p id="1">1. Requerimientos para instalar react</p>
+    <pre>
+        --------------------------------------------------------
+        - Primero es necesario instarlar Node.js		-> nodejs.org
+                                -  lts		-> Recomendable, soporte de largo alcance (Large SUpport)
+                                -  current	->
+
+        - Junto a Node.. Se intala NPM	-> Node Package Manager		-> Librerìa como date.js
+                                        -  Agregamos las librerìas a nuestro proyecto a través de npm
+
+
+        - Instalar Yarn	-> yarnpkg.com		-> Parecido a Npm.. 
+                            -  Con npm se puede instalar yarn
+
+        - Instalar git bash
+
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="2">2. Instalando mi primera app react</p>
+    <pre>
+        --------------------------------------------------------
+        Desde consola.. Con git bash
+            
+            - npm --version		-> Versión de npm
+
+            - node --version
+
+            - npm i -g yarn		-> i de install, -g de global, para ejecutarlo de manera global desde cualquier carpeta, instalamos yarn
+
+            - yarn			-> Vemos la versión
+
+            - git --version		-> Versión de git
+
+        Instalar react
+
+            - pwd			-> Vemos la dirección donde lo encontramos
+
+            - ls			-> Listar
+
+            - cd projects
+
+            - cd cursoReact/	-> Entramos a la carpeta correspondiente.
+
+            - npx create-react-app primera-app		-> primar-app nombre elegido, no lleva mayúsculas, y palabras separadas por guión.
+
+        --------------------------------------------------------
+        Luego de instalar react veremos todos los comandos posibles a través de yarn..
+
+            - cd primera-app		-> Ingresamos a la carpeta del proyecto recién creado
+
+            - yarn start			-> Inicia el servidor de desarrollo.	
+            
+        *Veríamos el logo de React con el proyecto iniciado*	
+
+        --------------------------------------------------------
+        Desde la terminal.. Tendriamos la indicación del Local.		-> Y también en Red.
+
+        On YOur Network: http://la dire indicada... Podremos ver en la misma red wi-fi en diferentes dispositivos.
+                                - *UTIL PARA TESTEAR*
+
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="3">3. Explorando los archivos de la instalación</p>
+    <pre>
+        --------------------------------------------------------
+        Control + c frenamos el servidor..
+        
+        Desde la visualización del explorador de Archivos.. Vemos la composición de lo que hemos creado.
+        
+        Abrimos el proyecto en Visual Studio Code la carpeta en cuestión.
+        
+        .gitignore:	-> Ignora los archivos o directorios que subiremos luego con posterioridad.
+        
+        packgage.json	-> Describe la aplicación que creamos, json.
+                    - "dependencies"	-> Librerías necesarias para que funcione la aplicación.
+                                - "react"
+                                - "react-dom"		-> Las 3 necesarias
+                                - "react-scripts"
+                    - "scripts"		-> los comandos para activar los scripts que necesitemos	-> yarn start 
+                    - "eslintConfig"	-> Para formato del proyecto
+                    - "development"		-> Listado de los browsers
+        
+        READEME	.MD	-> Texto explicativo de lo que hace el proyecto.
+        
+        yarn.lock	-> Listas las dependencias, y de cada una de ellas que versión se utiliza.
+        
+        ------------------
+        
+        - node_modules: Encontramos todas las dependencias que nuestro proyecto necesita.
+        
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="4">4. Entendiendo la carpeta public</p>
+    <pre>
+        --------------------------------------------------------
+        Veremos las carpetas..
+        
+        - node_modules		-> Todas las librerìas necesarias para crear el proyecto.
+                       Cada librerìa listar en el yarn.lock estar reflejado en una carpeta dentro del node_modules
+        
+        - public		-> Donde inicia el proyecto
+                    -  Lo que se cargará al navegador web
+                    -  Al navegador le pasamos un archivo html, en este caso el index.html
+        
+            - index.html						-> Para ver el index.html debemos correr yarn build o bien npm run build
+                -> < html lang="es">	< html lang="en">
+                - Carga los favicon
+                - el manifest.json	-> Archivo importante para PWA, aplicación web progresiva.
+                
+                %PUBLIC_URL%		-> Todo lo que llamemos de este html debe estar dentro de la carpeta public.					
+
+        <code>
+        < body>
+            < noscript> You need to enable Javascript to run this app </ noscript>	-> Cuando un navegador no encuentra js, renderiza este mensaje.
+                                            -  Es necesario js para correr React.
+
+            < div id="root"></ div>		-> Es el centro de la aplicación.. El contenedor
+        </  body>
+        </code>
+
+                - Todos los metas o analytics, plugins se pueden instalar dentro del archivo index.. SIn incovenientes.
+        
+            - robots.txt	-> Para los buscadores, propio de posicionamiento y demás.
+        
+        *En la carpeta src 	-> Sucede toda la "magia"*
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="5">5. El componente index</p>
+    <pre>
+
+        --------------------------------------------------------
+        *Terminal desde la consola de Visual Studio COde o bien desde la Terminal como tal*
+        
+            -> yarn start			-> Inicamos la aplicación.
+        
+        
+        --------------------------------------------------------
+            - Carpeta 	-> 	src
+
+        <code>
+        index.js
+            -> Archivo inicial donde comiena nuestra aplicación y nuestros archivos se renderizan.
+               SOLO en el index.js es necesario importar React y ReactDom
+        
+        import React from 'react';
+        import ReactDom from 'react-dom';
+        import './index.css';					-> Estilos css
+        import App from './App';				-> El arcivo app.js
+        
+        ReactDom.render(
+            < React.StrictMode>		
+                < App />					-> UN HIJO (un elemento, con varios dentro)
+            </ React.StrictMode>,
+            document.getElementById('root')			-> Div del index.html de la carpeta public, a ese div le inyectamos hijos.
+        );
+                                                            *No es un requisito pero es útil*
+                                                        -> Evuelve a toda la aplicación que creamos.
+                    -> < React.StrictMode> Traemos desde React el componente .StrictMode	-> Permite visualizar advertencias, errores..	
+                                                            - Mal renderizado de componentes
+                                                            - Mal llamado a otro tipos de componentes
+                                                            - Cambios de estados de mala manera, etc	
+        </code>    
+        
+        --------------------------------------------------------
+                Importamos de manera destructura StrictMode
+        
+        <code>
+                                    * 'react' es útil para renderizar el componente StrictMode, si no lo necesitamos lo quitamos.
+        import { StrictMode } from 'react';		-> Desde aca, de la librería React
+        import { render } from 'react-dom';		-> Lo mismo con render
+        import './index.css';					
+        import App from './App';				
+        
+        render(
+            < StrictMode>		
+                < App />					
+            </ StrictMode>,
+            document.getElementById('root')			
+        );
+        
+        
+            -> Por lo tanto tanto como 'react' y 'react-dom', nos ayudan a importar StrictMode y render, para utilizarlo.
+        
+        *Todo esto es la puerta de Acceso a la Aplicación*
+                - La aplicación es un componente 	-> < App />
+        
+                import App from './App';	-> Ese el archivo el cual llamamos.
+        </code>
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="6">6. El componente App</p>
+    <pre>
+        --------------------------------------------------------
+
+        Eliminamos los Archivos - App.test.js
+                    - setupTests.js
+                    - reportWebVitals.js	-> Que también se encuentra en el index.js
+        *Eliminamos para que sea más sencillo de comprender*
+        
+        --------------------------------------------------------
+            App.js
+        
+        <code>
+        import logo from './logo.svg';		-> Archivo svg
+        import './App.css';			-> Archivo de estilos, al componente App
+        </code> 
+
+        *Vamos eliminando para simplificar*
+        --------------------------------------------------------
+            -> Por medio de jsx retornamos un elemento, un div de className="App"
+        
+        <code>
+        function App(){
+            return (
+                < div className="App">			-> Este Div con su contenido en jsx, es DISTINTO a html
+                            
+        
+                </ div>
+            );
+        }
+        </code>
+        --------------------------------------------------------
+        <code>
+        function App(){				-> Creamos un función como componenete y retornamos el contenido.
+            return (
+                < div>			
+                    < header>								
+                        < h1>Bienvenido</ h1>
+                        < a 
+                            href="hhtp://google.com"
+                            targe="_blank"
+                            rel="noopener noreferrer"	
+                        >
+                            Visita Google
+                        </ a>
+                    </ header>
+        
+                </ div>
+            );
+        }
+        
+        
+        return default App;
+        
+                    -> De esta manera escribimos componentes en React 
+        </code>    
+        --------------------------------------------------------
+            -> Expresado como función de tipo flecha, no será necesario el return
+                    -> De esta manera aún más simplificado
+        
+        <code>
+        const App = () => (
+            < div>			
+                < header>								
+                    < h1>Bienvenido</h1>
+                    < a 
+                        href="hhtp://google.com"
+                        targe="_blank"
+                        rel="noopener noreferrer"	
+                    >
+                        Visita Google
+                    </ a>
+                </ header>
+            </ div>
+        );
+        
+        
+        return default App;			-> Es necesario exportarlo para importarlo desde el index.js
+        </code>
+        --------------------------------------------------------
+                    -> En el index.js lo renderizamos
+        
+        <code>
+        import { StrictMode } from 'react';
+        import { render } from 'react-dom';					
+        import App from './App';				
+        
+        render(
+            < StrictMode>		
+                < App />				-> Llamamos al componente abriendo y cerrando la etiqueta.
+            </ StrictMode>,
+            document.getElementById('root')			
+        );
+        </code>
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    
+    <p id="7">7. Aclarando la importación de react</p>
+    <pre>
+        --------------------------------------------------------
+
+        La línea 1.. No es necesaria agregarla a todos los archivos, a partir de la Versión 17 de React
+        
+        import React from "react":
+        
+        -> Esto solo aplica para programación FUNCIONAL*
+        
+            - Si vemos import repetitivos es problabe que se haya desarrolado en una verisón Anterior.
+        
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    <br> 
+    <br> 
+
+    <div class="context">
+        <a href="../1/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../3/index.html">Siguiente</a>
+    </div>
+
+</body>
+</html>

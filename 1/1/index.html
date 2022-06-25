@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción React</title>
+    <link rel="shortcut icon" type=image/jpg href="../../img/logo/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <div class="context">
+        <a href="../0_Atajos/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../2/index.html">Siguiente</a>
+    </div>
+    <div class="contenido" id="arriba">
+        <p>React - Notas</p>
+    </div>
+
+    <h1>1 - Fundamentos</h1>
+    <ul>
+        <li>
+            <a href="#1">1.1 - ¿Qué es react?</a>
+        </li>
+        <li>
+            <a href="#2">1.2 - Construye tu propia librería js</a>
+        </li>
+        <li>
+            <a href="#3">1.3 - Optimizando nuestra librería js</a>
+        </li>
+        <li>
+            <a href="#4">1.4 - Resolución de la librería js</a>
+        </li>
+        <li>
+            <a href="#5">1.5 - Introduciendo jsx</a>
+        </li>
+        <li>
+            <a href="#6">1.6 - Restricciones jsx para etiquetas</a>
+        </li>
+        <li>
+            <a href="#7">1.7 - Restricciones jsx para atributos</a>
+        </li>
+    </ul>
+
+    <p id="1">1.1 - ¿Qué es react? </p>
+    <pre>
+    --------------------------------------------------------
+    Librería o Bibliteca:
+    
+    Para crear Interfaces de Usuarios de Manera Dinámica.. 	Con Css y Html (Se crean de Manera estática)
+                                Con Js, nos apoyamos en el dinamismo.
+    
+    Con React Por medio de Js, podemos crear Aplicaciones Dinámicas.
+    
+        - Declarativo: Su sintaxis, a nivel visual es sencilla de entender, al declarar señalamos que sucederá en esa interfaz de Usuario.
+                   Legible, fácil de entender.
+    
+        - Basado en Componentes: Encapsulados que manejan su propio estado.
+    
+        - Aprende una vez, escríbelo donde sea: Al aprender React, podemos re utilizar el código para emplearlo en Native, para móvil.
+                - React puede también renderizar desde el servidor usando Node, así como potencializar aplicaciones móviles usando React Native.
+                - Next o Gaspy, construir aplicaciones desde el Servidor.
+    --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="2">1.2 - Construye tu propia librería js </p>
+    <pre>
+        --------------------------------------------------------
+        Construiremos una librería para entender más de cerca a React.. 
+        Nuestra librerìa construirá interfaces de Usuarios.
+        --------------------------------------------------------
+            En Vs code..
+        Creamos una carpeta donde deseemos.. Curso-React
+            Nueva carpeta dentro.. LIBRERIAJS
+        
+        Creamos un archivo index.html	-> Html5
+        
+        
+        <code>
+        < body>
+            < header>
+                < img src="./images/logo.svg" alt="Logo Libreria Js">
+                < nav class="main-menu">
+                    < ul>
+                        < li> < a href="/">Inicio</ a> </ li>
+                        < li> < a href="/nosotros">Nosotros</ a> < /li>
+                        < li> < a href="/contacto">Contacto</ a> < /li>			-> Este contenido se verá de manera Estática.
+                    </ ul>
+                </ nav>
+            < header>
+            < script src="./libreria.js" type="module">< /script>
+        </ body>									->"./" 	-> Indica la carpeta actual
+        </code>
+        --------------------------------------
+             Ahora en el html, borramos todo e intentaremos generar lo mismo, desde js.. 
+        --------------------------------------
+        <code>
+        < body>
+            < div id="root"></ div>
+        
+            < script src="./libreria.js" type="module"></ script>
+        < /body>
+        </code>
+        --------------------------------------
+            En el Archivo.. libreria.js		-> Para crear lo mismo de Js, sería un tanto "tedioso"
+                                -> Lo estático lo hacemos de manera dinámica con Js.
+        --------------------------------------
+        <code>
+        let header = document.createElement("header")
+        header.id = "mainHeader"
+        header.classList.add("main-header")
+        
+        let root = document.getElementById("root)
+        root.appendChild(header)				-> Le agregamos un hijo (header)
+        
+        *Si quisieramos crear otros componentes deberiamos repetir esto indefinidamente, por lo cual es necesario crear nuestras propias funciones*
+        </code>
+        --------------------------------------------------------
+        <code>
+        function createElement(elem, attr = {}) {				-> Armamos un objeto con los atributos del elemento a crear.
+        
+            let element = document.createElement(elem)
+            element.id = attr.id						- Los atributos del objeto se los agregamos con un -> .
+            element.classList.add(attr.className)				-> Evitar usar class que puede ser de POO
+            
+            return element
+        }
+        
+        function render(elem, DOMelem) {
+            DOMelem.appendChild(elem)
+        }
+        
+        const Header = createElement("header", { id: "mainHeader2", className: "main-header-2" })
+        render(Header, document.getElementById("root"))
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="3">1.3 - Optimizando nuestra librería js</p>
+    <pre>
+        --------------------------------------------------------
+        De esta manera creamos funciones que luego podremos re utilizar las veces que deseemos.
+        --------------------------------------------------------
+        Creamos un nuevo archivo llamado script.js..
+
+        <code>
+        import { createElement, render} from "./liberia.js"						-> Importamos las funciones a utilizar.
+        
+        const Header = createElement("header", { id: "mainHeader2", className: "main-header-2" })
+        render(Header, document.getElementById("root"))
+        </code>
+        --------------------------------------------------------
+        Y desde el archivo libreria.js.. Exportamos la función.
+
+        <code>
+        export function createElement(elem, attr = {}) {				
+        
+            let element = document.createElement(elem)
+            element.id = attr.id						
+            element.classList.add(attr.className)				
+            
+            return element
+        }
+        
+        export function render(elem, DOMelem) {
+            DOMelem.appendChild(elem)
+        }
+        </code>
+        --------------------------------------------------------
+        Y desde el index.html.. Llamamos al script.
+
+        <code>
+            < script src="./script.js" type="module">< /script>
+        </code>
+        --------------------------------------------------------        
+    </pre>
+    
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="4">1.4 - Resolución de la librería js</p>
+    <pre>
+        --------------------------------------------------------
+            En el archivo libreria.js
+
+        <code>
+        export function createElemen(type, attrList = {}, children = []) {
+            let elem = document.createElement(type)
+
+            let keys = Object.keys(attrList)
+            key.map(k => elem.setAttribute(k, attrLis[k]))
+
+            children.map(child => renderChild(elem, child))
+            return elem
+        }
+
+        function renderChild(elem, child) {			-> Esta no se exporta ya que es una funcion que usa la de arriba, createElement
+            if(typeof child === "string") {
+                elem.innerHTML += child
+                return
+            }
+            elem.appendCHild(child)
+        }
+
+        export function render(elemento, DOMelement) {
+            DOMelement.appendChild(elemento)
+        }
+        </code>
+        --------------------------------------------------------
+            En el archivo script.js.. Diversos Elementos, con sus diversos atributos.
+
+        <code>
+        import { createElement, render} from "./libreria.js"
+
+        const Logo = createElement("img", {
+            class: "logo",
+            alt: "Logo",ç
+            src: "./images/logo.png"
+        })
+
+        const Nav = createELement("nav", { class: "main-nav" })
+
+        const Header = createElement("header", {
+            class: "main-header"
+        }, [Logo, Nav])						-> Al Header como padre, le paso los hijos, Logo y nav
+
+
+        render(Header, document.getElementById("root"))			-> El render recibe el Header y lo inserta en el "root"
+        </code>
+        --------------------------------------------------------
+    </pre>
+    
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    <p id="5">1.5 - Introduciendo jsx</p>
+    <pre>
+        --------------------------------------------------------
+        Al momento de crear muchos elementos.. Pueden existir conflictos, ya que se reemplazarían y no podrían coexistir.
+        
+        Con React.. Solucionamos el incoveniente creando un Virtual Dom..	-> Almacenado en la memoria.
+                                            -  React lo afecta, es una copia.
+        
+        React hace una comparación, lo que se quiera mandar al DOM, primero se manda al Virtual Dom.	
+                                            -> Este se compara y se actualiza las partes necesarias.
+                                            -  
+        --------------------------------------------------------
+            En un archivo logo.js.. Combinaron Js con Xml (semántica de Html) => JSX
+            
+        <code>
+        // const Logo = createElement("img", {
+        // 	class: "logo",
+        //	alt: "Logo",ç
+        //	src: "./images/logo.png"
+        // })
+        
+        //JSX		-> Hibrido de Js y Xml.			
+                        - usar className, no class..
+                        - Cerrar las etiquetas />
+        
+        // const Logo = < img src="./images/logo.png" alt="Logo" className="logo" />
+        
+        // Return abreviado, de manera implícito
+        // const Logo = () => < img src="./images/logo.png" alt="Logo" className="logo" />
+        
+        // const Logo = () => {
+            return < img src="./images/logo.png" alt="Logo" className="logo" />
+        }
+        
+        // Retornar algo más elaborado.. Híbrido entre Js y Html.
+        // consto Logo = () => {
+            return (
+                < div id="main-logo">
+                    < img src="./images/logo.png" alt="Logo" className="logo" />
+                < /div>
+            )
+        }
+        </code>
+        --------------------------------------------------------        
+    </pre>
+    
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    <p id="5">1.6 - Restricciones jsx para etiquetas</p>
+    <pre>
+        --------------------------------------------------------
+        // Regla JSX 1 : Solo se puede renderizar o almacenar 1 elemento.
+        
+        <code>
+        const saludo = (				-> Si se puede, ya que el div actúa como padre 1 elemento, que contiene otros.
+            < div>
+                < h1>Hola< /h1>					
+                < img src="./images/logo.png" />
+            < /div>
+        )
+        </code>
+
+        // Regla JSX 2: Usar Fragmentos, son "elementos" invisibles.. Permiten encapsular otros elementos, adyacentes..
+        
+        <code>
+        const saludo = (				-> Fragment = <></>	-> Evitamos agregar div innecesarios.
+            <>
+                < h1>Hola</ h1>					
+                < img src="./images/logo.png" />
+            </>
+        )
+        </code>
+        --------------------------------------------------------            
+    </pre>
+    
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    <p id="5">1.7 - Restricciones jsx para atributos</p>
+    <pre>
+        --------------------------------------------------------
+
+        // Regla JSX 3: Toda Etiqueta debe cerrarse	-> Obligatorio < img></ img>	-> En un solo paso "< img />" si la etiqueta no tendrá hijos
+                                                           "< p />"
+        <code>
+        const MiLogo = < img src="logo.svg" alt="Logo Principal" />
+        </code>
+        --------------------------------------------------------
+            En algun momento necesitaremos agregar un div vacío..
+
+        <code>
+        const miClase = "container"
+        const MiLogo = < img src="logo.svg" alt="Logo Principal" />
+        const divVacio = < div className={miClase} id="main" />			-> En el div también se puede cerrar.
+        </code>
+        --------------------------------------------------------
+        //Regla JSX 4: TOdo atributo compuesto se convierte en camelCase		-> onClick, camelCase
+        
+        <code>
+        const miBoton = < button id="boton1" onClick="Logo">Click Me!< /button>
+        </code>
+
+        *Cada atributo de js, tendrá su propia conversión al estilo camelCase*
+        --------------------------------------------------------        
+    </pre>
+    
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    <br>
+    <br>
+
+    
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="../0_Atajos/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../2/index.html">Siguiente</a>
+    </div>
+
+</body>
+</html>

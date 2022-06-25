@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción React</title>
+    <link rel="shortcut icon" type=image/jpg href="../../img/logo/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <div class="context">
+        <a href="../3/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../5/index.html">Siguiente</a>
+    </div>
+    <div class="contenido" id="arriba">
+        <p>React - Notas</p>
+    </div>
+
+    <h1>4 - Componentes funcionales y los hooks</h1>
+    <ul>
+        <li>
+            <a href="#1">4.1 - Migrando a componentes funcionales</a>
+        </li>
+        <li>
+            <a href="#2">4.2 - Hooks, useState y el estado inicial</a>
+        </li>
+        <li>
+            <a href="#3">4.3 - Actualizando el estado con hooks</a>
+        </li>
+        <li>
+            <a href="#4">4.4 - El hook useEffect</a>
+        </li>
+        <li>
+            <a href="#5">4.5 - El hook useRef</a>
+        </li>
+    </ul>
+
+    <p id="1">1. Migrando a componentes funcionales</p>
+    <pre>
+        -------------------------------------------------------
+        Migrar componentes de tipo clase en componentes de tipos función
+        
+        --------------------------------------------------------
+        <code>
+        import { Component } from "react"			
+                
+        class Cupcake extends Component {
+            constructor(props) {	
+                super(props)				
+                this.state = {				
+                    vendido: false						
+                }								
+                this.vender = this.vender.bind(this)			
+            }
+        
+            vender() {
+                this.setState({
+                    vendido: true				
+                })
+        
+            }
+        
+            
+            componentWillMount(){
+                console.log("El componente se montará")
+                // Si accedemos desde aquí al componente, en sí, este es null, aún no existe
+            }
+        
+            componentDidMount(){
+                console.log("El componente se montó")
+                // Desde acá si se puede acceder al elemento, ya se montó 
+            }
+                                                -> Lo vemos desde consola en el navegador.
+            componentWillUpdate() {
+                console.log("El componente se actualizará")
+                // Ejemplo, desde acá veríamos SOLO el botón al momento de hacer click y simular vender uno de los cupcake.
+                
+            }
+        
+            componentDidUpdate() {
+                console.log("El componente se actualizó")
+                // El componente desaparece al momento de hacer click.. Ya que se elimina por completo / Se destruye
+            }
+            
+            render() {
+        
+                console.log("Montaje!")							
+                return (
+                    < div className="cupcake">					
+                        < img src={this.prop.foto} alt={this.prop.sabor} />		
+                        < h2>{this.prop.color}< /h2>					
+                        < p>{`Sabor: ${this.prop.sabor}`}< /p>
+                        < p>
+                            < b> Estado: < /b>			
+                            { 
+                                this.state.vendido ? "Vendido" : "A la Venta" 			
+                            }
+                        < /p>			
+                        {
+                            !this.state.vendido && < button onClick={this.vender}>Vender< /button>
+                        }
+                            
+                    < /div>				
+                )					
+            }		
+        
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+            Empezamos de Cero..
+            -> Cuando un componente no tiene estado.. Es un Stateless Component 	-> componente sin estado
+        
+        <code>            
+        const Cupcake = ( { foro, sabor, color}) => {
+        
+            return (
+                < div className="cupcake">					
+                < img src={foto} alt={sabor} />		
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        state.vendido ? "Vendido" : "A la Venta" 			
+                    }			}
+                    < /p>			
+                {
+                    !state.vendido && < button onClick={vender}>Vender< /button>
+                }
+                            
+            < /div>				
+            )
+        }
+        
+        export default Cupcake				
+        
+                    -> Hasta aquí tenemos un componente presentacional, Stateless Component 
+                    -  Ahora debemos pasar este tipo de componente a un componente state full con estado.
+        </code>    
+        --------------------------------------------------------
+        <code>
+        const Cupcake = ( { foro, sabor, color, vendido}) => {				-> Agregamos como prop a 'vendido' destructuradamente
+        
+            const vender = () => console.log("Vendido!!")
+        
+            return (
+                < div className="cupcake">					
+                < img src={foto} alt={sabor} />		
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        state.vendido ? "Vendido" : "A la Venta" 			
+                    }			}
+                    < /p>			
+                {
+                    !vendido && < button onClick={vender}>Vender< /button>
+                }
+                            
+            < /div>				
+            )
+        }
+        
+        export default Cupcake				
+        </code>
+        --------------------------------------------------------        
+                    -> Los valores props si no se los pasamos lo detecta como false..
+                    -  Si le pasamos el nombre de la prop, vendido, lo detecta como True
+    
+        -> En app.js, le podemos agregar una foto.. Una url desde internet.
+        
+        <code>                                 
+        import Cupcake from "./Cupcake";		
+        import "./App.css"					
+        
+        const App = () => {
+            < div className="container">						
+                < Cupcake vendido color="rosa" sabor="vainilla" foto="https" />				-> le pasamos el vendido
+                < Cupcake color="azul" sabor="chocolate foto="https" />			
+            < /div>
+        };
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+        
+            -> Ahora debemos crear un componente funcional para manejar el estado.
+            -  Por lo cual el valor de vendido no lo pasaremos como prop
+        
+        <code>
+        import Cupcake from "./Cupcake";		
+        import "./App.css"					
+        
+        const App = () => {
+            < div className="container">						
+                < Cupcake vendido color="rosa" sabor="vainilla" foto="https" />				-> le pasamos el vendido
+                < Cupcake color="azul" sabor="chocolate foto="https" />			
+            < /div>
+        };
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            *Con anterioridad los estados eran propios de los componenetes de clase, no los funcionale.. Si a partir de la versión de 16*
+            -> Con Hook	-> Es un gancho con el cual nos "enganchamos" a algo que no tenemos, y extender la funcionalidad.
+                    -  Lo que permite manejar el cambio de estado en los componentes funcionales.
+        
+            - React ya tiene incorporado algunos como el Hook Use State	-> permite manejar estados, definirlo para nuestro componente
+                                    Hook Use Effect	-> Permite manejar el ciclo de vida de un componente, pero no tipo clase.
+                                                                            Si tipo función.
+        
+        <code>
+        const Cupcake = ( { foro, sabor, color}) => {				-> No lo pasaremos como prop a 'vendido'
+        
+            const vender = () => console.log("Vendido!!")
+        
+            return (
+                < div className="cupcake">					
+                < img src={foto} alt={sabor} />		
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        state.vendido ? "Vendido" : "A la Venta" 			
+                    }			}
+                    < /p>			
+                {
+                    !vendido && < button onClick={vender}>Vender< /button>
+                }
+                            
+            < /div>				
+            )
+        }
+        
+        export default Cupcake	
+        </code>			
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="2">2. Hooks, useState y el estado inicial</p>
+    <pre>
+
+        --------------------------------------------------------
+        -> useState	-> Nos va a permitir usar el estado en nuestros componentes funcionales.	
+            - como usarlo
+        
+        <code>
+        import { useState } from "react"					-> El useState devuelve un array
+        
+        const Cupcake = ( { foro, sabor, color}) => {				
+        
+                                    - Para acceder a 2 variables de un array, destructuramos con [ , ]
+                                    - Primero la variable estado, y en segundo lugar le pasamos una función.. Por conveción set..
+                                    - Se la puede nombrar como deseemos (la variable y la función con el set al comienzo)
+                                    
+                                    - estado es un objeto o lo que deseemos.. Un número, string, etc, lo que deseemos almacenar.
+                                        estado = {vendido : false}	
+        
+            const [estado, setEstado] = useState({ vendido: false })			-> Será igual a lo que importamos desde "react"
+                                                    -  Le pasamos un objeto que inicia con false.
+                                                    -  el estado comenzará con el contenido de false del objeto.
+            const vender = () => console.log("Vendido!!")
+        
+            return (
+                < div className="cupcake">					
+                < img src={foto} alt={sabor} />		
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        estado.vendido ? "Vendido" : "A la Venta" 				-> Le pasamos el estado
+                    }			}
+                    < /p>			
+                {
+                    !estado.vendido && < button onClick={vender}>Vender< /button>			-> Le pasamos el estado
+                }
+                             
+            < /div>				
+            )
+        }
+        
+        export default Cupcake				
+        
+                        -> Si le cambiamos el {vendido: true}	-> El botón ahora desaparecerá.
+        </code>
+        --------------------------------------------------------
+            -> Ahora para optimizarlo
+                - En vez de pasarle dentro del useState() un objeto ({vendido: false }) le pasamos un booleano
+                    - Por lo cual [estado, setEstad]	-> El estado, ahora será un booleano no un objeto.
+                            - El nombre "estado" como su valor recordar que puede ser de cualquier tipo.
+
+        <code>
+        import { useState } from "react"					
+        
+        const Cupcake = ( { foro, sabor, color}) => {				
+        
+            const [estado, setEstado] = useState( false )			
+        
+            const vender = () => console.log("Vendido!!")
+        
+            return (
+                < div className="cupcake">					
+                < img src={foto} alt={sabor} />		
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        estado ? "Vendido" : "A la Venta" 				-> Ahora solo le pasamos el estado
+                    }			}
+                    < /p>			
+                {
+                    !estado && < button onClick={vender}>Vender< /button>			-> Ahora solo le pasamos el estado
+                }
+                            
+            < /div>				
+            )
+        }
+        
+        export default Cupcake				
+        </code>
+        --------------------------------------------------------
+            -> Por lo cual si le podemos pasar el nombre que deseemos le pasamos vendido
+                    - Más semántico
+            
+            - De esta manera podemos inicializar un estado dentro de nuestros componentes funcionales.	
+        
+        <code>
+        import { useState } from "react"					
+        
+        const Cupcake = ( { foro, sabor, color}) => {				
+        
+            const [vendido, setVendido] = useState( false )			
+        
+            const vender = () => console.log("Vendido!!")
+        
+            return (
+                < div className="cupcake">					
+                < img src={foto} alt={sabor} />		
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        vendido ? "Vendido" : "A la Venta" 				-> Cambiamos a vendido
+                    }			}
+                    < /p>			
+                {
+                    !vendido && < button onClick={vender}>Vender< /button>			-> Cambiamos a vendido
+                }
+                            
+            < /div>				
+            )
+        }
+        
+        export default Cupcake				
+        </code>
+        -------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="3">3. Actualizando el estado con hooks</p>
+    <pre>
+        --------------------------------------------------------
+		-> Ahora a través del Onclick con el cual llamamos a {vender}		-> vender = ()
+												- Le cambiamos el estado a setVendido(true)
+            
+        <code>
+        import { useState } from "react"					
+
+        const Cupcake = ( { foro, sabor, color}) => {				
+
+            const [vendido, setVendido] = useState( false )			
+
+            const vender = () => {
+                setVendido(true)
+            }
+
+            return (
+                < div className="cupcake">					
+                < img src={foto} alt={sabor} />		
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        vendido ? "Vendido" : "A la Venta" 				
+                    }			}
+                    < /p>			
+                {
+                    !vendido && < button onClick={vender}>Vender< /button>		
+                }
+                            
+            < /div>				
+            )
+        }
+
+        export default Cupcake				
+        </code>
+        
+            -> Con la extensión, de dev react, en la pestaña de Components..
+                    -> Podremos ver el hooks
+                                State: true	- En función de clickear el botón.
+
+        --------------------------------------------------------
+            -> Para simplificar el código podremos hacer otros cambios..
+
+        <code>    
+        import { useState } from "react"					
+
+        const Cupcake = ( { foro, sabor, color}) => {				
+
+            const [vendido, setVendido] = useState( false )			
+
+            const vender = () => setVendido(true)				-> Simplificar acá
+
+            return (
+                < div className="cupcake">					
+                < img src={foto} alt={sabor} />		
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}<    /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        vendido ? "Vendido" : "A la Venta" 				
+                    }			}
+                    < /p>			
+                {
+                    !vendido && < button onClick={vender}>Vender< /button>			-> onClick={vender} Evitar meter lógica dentro de {}
+		        }											-onClick={setVendido(true)}
+			        										- Al ejecutar esto se ejecuta el set
+            < /div>												- onClick={ () => setVendido(true)
+            )													¡MALA PRACTICA!	
+        }													- Separar siempre la lógica.
+
+        export default Cupcake				
+        </code>
+        --------------------------------------------------------
+
+            - El useState va de la mano con el useEffect
+
+        Por lo tanto el useState..
+        Permite tener 2 valores, const [vendido, setVendido]= useState(false)
+            - EL 1ª vendido, contiene un estado, ese valor puede variar en cualquier momento.
+			- El 2ª es una funcion setVendido, que actualiza el contenido del primer valor vendido.
+		- Y esto se almacen desde el useState()	- Esta recibe el estado inicial (false) deseado al momento de cargar.
+										- () también se lo podemos pasar como nulo, vacío.
+
+		- con const vender = () => setVendido(true) le actualizamos el nuevo valor a true.. en este caso, por medio del click en el botón.
+
+			-> El valor dentro useState("puede ser de cualquier tipo, boolean, objeto, nùmero, lo que necesitemos")					
+        --------------------------------------------------------    
+    </pre>
+
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="4">4. El hook useEffect</p>
+    <pre>
+        --------------------------------------------------------
+        - Permite controlar efectos "colaterales" a partir del renderizado de nuestros componentes
+                        -> Esto en función de los ciclos de vida.. En funcional no tenemos esos métodos.
+        - Hook Effect, permite simular ese comportamiento del ciclo de vida.
+        
+        <code>
+        import { useState, useEffect } from "react"							-> Importamos
+        
+        const Cupcake = ( { foro, sabor, color}) => {				
+        
+            const [vendido, setVendido] = useState( false )			
+            const vender = () => setVendido(true)				
+        
+                        -> Recibe 2 parámetros, el segundo es opcional
+                                    el primero es una función, que se ejecuta cada vez que el componente tenga algun efecto similar..	
+                                                                - al ciclo de vida, montar, actualizar, etc.
+            
+                            -> Como función normal useEffect(function (){})
+            useEffect(() => {			-> Como arrow function
+                console.log("Bienvenido", Date.now())			-> Para ver la fecha en tipo timestamp.. Solo para ver en el ejemplo
+            })								-  Esta función se va a ejecutar cada vez que el componente se renderize nuevamente.
+                                            
+                                        - Util para traer información, es decir para conectarnos a una APi, hacer un fetch..
+                                        - De esta manera, con la petición llegue de manera adecuada, lo cargamos en el DOM.
+                            - Inconveniente, siempre que haya un efecto se ejecuta..
+        
+        
+            return (
+                < div className="cupcake">					
+                < img src={foto} alt={sabor} />		
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        vendido ? "Vendido" : "A la Venta" 				
+                    }			}
+                    < /p>			
+                {
+                    !vendido && < button onClick={vender}>Vender< /button>			
+                }										
+                                                        
+            < /div>											
+            )											
+        }												
+        
+        export default Cupcake				
+        </code>
+        --------------------------------------------------------
+            -> - Inconveniente, siempre que haya un efecto se ejecuta..
+        
+            -> useEffect() -> Como segundo parametro recibe un array
+        
+        <code>    
+        import { useState, useEffect } from "react"							
+        
+        const Cupcake = ( { foro, sabor, color}) => {				
+        
+        const [vendido, setVendido] = useState( false )			
+        const vender = () => setVendido(true)				
+                        
+        useEffect(() => {			
+            console.log("Estamos por iniciar el componente", Date.now())			
+        }, [])					
+    
+                    -> Con el array ['vacio'], se imprime solamente una vez.. Evitando que el mensaje se repite.
+                            - No se ejecuta la funcíón permitiendo hacer un control
+    
+        return (
+            < div className="cupcake">					
+            < img src={foto} alt={sabor} />		
+            < h2>{color}< /h2>					
+            < p>{`Sabor: ${sabor}`}< /p>
+            < p>
+                < b> Estado: < /b>			
+                { 
+                    vendido ? "Vendido" : "A la Venta" 				
+                }			}
+                < /p>			
+            {
+                !vendido && < button onClick={vender}>Vender< /button>			
+            }										                                     
+            < /div>											
+            )											
+        }												
+        
+        export default Cupcake				
+        </code>
+        --------------------------------------------------------
+            -> Ahora para el caso que tengamos varios estados.. ejemplo vendido, reservado, etc..
+        
+        <code> 
+        import { useState, useEffect } from "react"							
+        
+        const Cupcake = ( { foro, sabor, color}) => {				
+        
+            const [vendido, setVendido] = useState( false )			-> El useState lo podemos reutilizar las veces necesarias, como los valores.
+            const [reservado, setReservado] = useState( false )		-  Agregamos, otro boton para el reservado.	
+        
+            const vender = () => {
+                setVendido(true)				-> Y desde una misma función actualizamos 2 estados.
+                setReservado(true)				
+            }
+            const reservar = () => setReservado(true)			-> Creamos la nueva función del botón
+        
+            useEffect(() => {			
+                console.log("Estamos por iniciar el componente", Date.now())			
+            }, [reservado])					
+        
+                        -> El array puede recibir los valores del estado que pueden ir cambiando, a lo que indiquemos que observe.
+                            - De acuerdo a los valores dentro del array.. Con el ['vacio'] = [], ningun estado observará
+                                    [reservado]	-> Para esta función
+                                    [vendido]	-> Para esta función
+                        - De esta manera podemos decidir que valores podemos observar	-> [] correrá 1, vez
+                                                        Si quitamos el [], observará todos los efectos.
+                
+                * Considerar siempre [], para controlar los efectos en la función useEffect, puede que lo olvidemos y eso dará problemas*
+                            -> Array como 2ª parámetro.
+            return (
+                < div className="cupcake">					
+                < img src={foto} alt={sabor} />		
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        reservado ? "Reservado" : "Libre" 				
+                    }			}
+                    < /p>			
+                {
+                    !reservado && < button onClick={reservar}>Reservar< /button>				-> Agregamos el botón.
+                }										
+                    < b> Estado: < /b>			
+                    { 
+                        vendido ? "Vendido" : "A la Venta" 				
+                    }			}
+                    < /p>			
+                {
+                    !vendido && < button onClick={vender}>Vender< /button>			
+                }										
+                                                                                                
+            </div>											
+            )											
+        }												
+        
+        export default Cupcake		
+        </code>		
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="5">5. El hook useRef</p>
+    <pre>
+        --------------------------------------------------------
+        -> Hay muchos hook, propios de React y otros creados por la comunidad.. 
+    
+        hook useRef	-> Permite crear referencias.. 
+                    Ya que React no trabaja con el Dom real en sí, sino con el virtual (al crear una copia)
+                    Por lo cual con js, al momento de tomar un id lo tomamos con el documentgetelement.
+                    Con react eso generaría un problema
+                - De esta manera usaríamos las referencias.. Las que permiten acceder al elemento del dom (dom virtual)..
+                                            Para manipularlo como si fuera un elemento del dom real
+        
+        --------------------------------------------------------
+            Creamos un archivo Cupcake.css		Hoja de estilos dentro de la carpeta src
+
+        <code>
+        .vendido {
+            filter: grayscale(1);			-> En escala de grises.
+        }
+        </code> 
+        --------------------------------------------------------
+            Importamos la hoja de estilos
+                -> Con useRef accedemos a uno de los elementos del DOM, en este caso a la imagen
+        
+        <code>                
+        import { useState, useEffect, useRef } from "react"							
+        import "./Cupcake.css"
+        
+        const Cupcake = ( { foro, sabor, color}) => {				
+        
+            const [vendido, setVendido] = useState( false )			
+            const [reservado, setReservado] = useState( false )		
+        
+            const fotoCupcake = useRef()					-> De esta manera fotoCupcake será una referencia
+        
+            const vender = () => {
+                setVendido(true)				
+                setReservado(true)				
+            }
+            const reservar = () => setReservado(true)			
+        
+            useEffect(() => {			
+                // console.log(fotoCupcake.current)			-> Para observar el cambio, nos manda un objeto.. 
+                                            - current del objeto.. El elemento del DOM, de manera referencial.
+                                            fotoCupcake = Elemento del Dom
+        
+                const elemento = fotoCupcake.current			-> Lo guardamos en una variable
+                if(reservado){		
+                    elemento.classList.add("vendido")			- Cada vez que el valor de reservado cambio, cambiará la clase.
+                }
+            }, [reservado])					
+        
+                
+            return (
+                < div className="cupcake">					
+                < img ref={fotoCupcake} src={foto} alt={sabor} />				-> ref={el nombre que queramos}
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        reservado ? "Reservado" : "Libre" 				
+                    }			}
+                    < /p>			
+                {
+                    !reservado && < button onClick={reservar}>Reservar< /button>				
+                }										
+                    < b> Estado: < /b>			
+                    { 
+                        vendido ? "Vendido" : "A la Venta" 				
+                    }			}
+                    < /p>			
+                {
+                    !vendido && < button onClick={vender}>Vender< /button>			
+                }										
+                                                                                                
+            < /div>											
+            )											
+        }												
+        
+        export default Cupcake				
+        </code>
+        --------------------------------------------------------
+                            -> Esta información desde el Frontend se puede enviar al Backend.
+
+        <code>
+        import { useState, useRef } from "react"				-> useEffect		-> Si no lo usamos lo quitamos del import.
+        import "./Cupcake.css"
+        
+        const Cupcake = ( { foro, sabor, color}) => {				
+        
+            const [vendido, setVendido] = useState( false )			
+            const [reservado, setReservado] = useState( false )		
+        
+            const fotoCupcake = useRef()					
+        
+            const vender = () => {
+                setVendido(true)				
+                setReservado(true)				
+                const elemento = fotoCupcake.current
+                elemento.classList.add("vendido")			-> Al hacer click en el botón agregamos la clase.
+                                            - Solo para cuando se venda, no para cuando se reserve, ejemplos..	
+        
+            }
+            const reservar = () => setReservado(true)			
+        
+            // useEffect(() => {			
+                                    -> Para evitar hacer la validación acá..
+            // }, [reservado])					
+        
+                
+            return (
+                < div className="cupcake">					
+                < img ref={fotoCupcake} src={foto} alt={sabor} />				
+                < h2>{color}< /h2>					
+                < p>{`Sabor: ${sabor}`}< /p>
+                < p>
+                    < b> Estado: < /b>			
+                    { 
+                        reservado ? "Reservado" : "Libre" 				
+                    }			}
+                    < /p>			
+                {
+                    !reservado && < button onClick={reservar}>Reservar< /button>				
+                }										
+                    < b> Estado: < /b>			
+                    { 
+                        vendido ? "Vendido" : "A la Venta" 				
+                    }			}
+                    < /p>			
+                {
+                    !vendido && < button onClick={vender}>Vender< /button>			
+                }										
+                                                                                                
+            < /div>											
+            )											
+        }												
+        
+        export default Cupcake				
+        </code>
+        --------------------------------------------------------        
+    </pre>
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <br>
+
+    
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="../3/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../5/index.html">Siguiente</a>
+    </div>
+
+</body>
+</html>

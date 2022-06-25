@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción React</title>
+    <link rel="shortcut icon" type=image/jpg href="../../img/logo/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <div class="context">
+        <a href="../4/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../6/index.html">Siguiente</a>
+    </div>
+    <div class="contenido" id="arriba">
+        <p>React - Notas</p>
+    </div>
+
+    <h1>6 - Peticiones HTTP</h1>
+    <ul>
+        <li>
+            <a href="#1">6.1 - Usando mocks y API con JSON server</a>
+        </li>
+        <li>
+            <a href="#2">6.2 - Preparando mi componente reutilizable</a>
+        </li>
+        <li>
+            <a href="#3">6.3 - Peticiones HTTP con Fetch API</a>
+        </li>
+        <li>
+            <a href="#4">6.4 - Renderizando contenido desde una API</a>
+        </li>
+        <li>
+            <a href="#5">6.5 - Utilizando variables de entorno</a>
+        </li>
+        <li>
+            <a href="#6">6.6 - Escuchando cambios en la petición y manejando errores</a>
+        </li>
+        <li>
+            <a href="#7">6.7 - Peticiones HTTP con AXIOS</a>
+        </li>
+    </ul>
+
+    <p id="1">1. Usando mocks y API con JSON server</p>
+    <pre>
+        -------------------------------------------------------
+        -> Consumir data desde una Api.
+        
+        Los Cupcakes.. Vendrán desde una Base de DATOS
+                - Accederemos a ellos a través de una petición http
+                
+            - Usaremos como simulador de la api una librería llamada Json Server
+        
+        --------------------------------------------------------
+        
+            - Buscamos en npm o en github..
+                - github.com/typicode/json-server
+        
+        Los instalamos desde consola..	-> json-server simula una api fake, útil para simular la petición que le haríamos al backend
+        
+            -> npm install -g json-server			-> de manera -g global
+        
+            -> cd projexts/cursoReact/
+        
+            -> mkdir api					
+        
+            -> cd api/			
+        
+            -> code db.json			->  lo creamos directamente y lo armamos
+        
+        - db.json			
+
+        <code>
+        {
+            "cupcakes": [					-> Sin tildes
+                {
+                    "id": 1,
+                    "sabor": "Vainilla",
+                    "color": "amarillo",
+                    "descripcion": "Gran Cupcake sabor vainilla clásica"
+                    "precio": 10
+                    "imagen": "https://t1.rg.ltmcdn.com/es/images/8/8/8/6/img_cupcakes_quequitos_33688_paso_4_600.jpg"
+                },				-> Cada cupcake será un objeto
+                {
+                    "id": 2,
+                    "sabor": "Chocolate",
+                    "color": "Marron",
+                    "descripcion": "Gran Cupcake sabor chocolate clásico"
+                    "precio": 15
+                    "imagen": "https://t1.rg.ltmcdn.com/es/images/8/8/8/6/img_cupcakes_quequitos_33688_paso_4_600.jpg"
+                },
+                {
+                    "id": 3,
+                    "sabor": "Fresa",
+                    "color": "rojo",
+                    "descripcion": "Gran Cupcake sabor fresa clásica"
+                    "precio": 20
+                    "imagen": "https://t1.rg.ltmcdn.com/es/images/8/8/8/6/img_cupcakes_quequitos_33688_paso_4_600.jpg"
+                }
+            ]
+        }
+        </code>                         
+        --------------------------------------------------------
+            Con el archivo creado ahora lo pasamos a una api..
+        Desde consola.. Ejecutamos el siguiente comando donde tengamos el archivo db.json
+        
+            -> json-server --watch db.json			-> Si no le pasamos el puerto por defecto corre en el puerto 3000
+        
+            -> json-server --watch db.json --port 3050	-> Para que no choque con el servidor de react
+        
+        
+        Desde el navegador
+        
+            - localhost:3050		-> Entramos a una página, con el servidor json-server
+                            - Detecta los cupcakes
+                            - Podremos acceder a ellos a través de los métodos http	(get, post, put, patch, delete, options)
+        
+            - localhost:3050/cupcakes	-> Podemos probarla en postaman
+                            -  Obtenemos la data de los cupcakes.		
+        
+        - Json-server permite trabajar con mocks, data "muckeada"
+        
+                    -> De esta manera ya podríamos trabajar con los cupcakes desde una api.
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="2">2. Preparando mi componente reutilizable</p>
+    <pre>
+
+        --------------------------------------------------------
+        Dentro de la carpeta components, creamos la carpeta cards..
+        El archivo Cupcake.js	-> 
+    
+        <code>
+        const Cupcajke = ({ 				->Cada propiedad vendría desde props
+            descripcion, 
+            image, 
+            sabor, 
+            color, 
+            precio }) => {				
+            return (
+                
+                < div>	
+                    < img src={ image }" alt={ sabor } />
+                    < p>{descripcion}< /p>
+                    < span>Color: {color}< /span>
+                    < span>Precio: {precio}< /span>
+                < /div>	
+        
+            )
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+            Todos los cupcakes que recibimos desde la Api, los imprimiremos en la página, cupcakes.js, en la carpeta de pages
+        
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+        
+        
+        const Cupcakes = () => {
+            
+            const [cupcakes, setCupcakes] = useState()				-> Manejamos el estado
+            
+            useEffect(() => {
+                                    -> Usaremos fetch para consultar la Api							
+            }, [])
+        
+            return (
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>
+                    < section>
+                    
+                    < /section>
+                < div>
+            )	
+        }
+        
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="3">3. Peticiones HTTP con Fetch API</p>
+    <pre>
+        -------------------------------------------------------
+		En el archivo .. cupcakes.js
+
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+
+
+        const Cupcakes = () => {
+            
+            const [cupcakes, setCupcakes] = useState()				
+            
+            useEffect(() => {					-> La url que generamos con json-server
+                fetch("https://localhost:3050/cupcakes" )	
+                    .then(response => response.json())			-> La respuesta serán en formato json	
+                    .then(data => console.log(data))			-> Solo la imprimimos en consola.. Un array
+            }, [])									-  Nos aseguramos así la respuesta que nos llega al verla en consola.
+
+            return (
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>
+                    < section>
+                    
+                    < /section>
+                < div>
+            )	
+        }
+
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+                En el archivo .. cupcakes.js
+
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+
+
+        const Cupcakes = () => {
+                                        -> con useState([])	-> No es la solución adecuada 
+            const [cupcakes, setCupcakes] = useState([])					-> cupcakes
+            
+            useEffect(() => {					
+                fetch("https://localhost:3050/cupcakes" )	
+                    .then(response => response.json())			
+                    .then(data => setCupcakes(data))				-> cupcakes sera lo que viene de data
+            }, [])
+                                        - Al visualizar el state desde la consola de react tools..
+                                        -	Veremos visualizados el array de cupcakes
+                                        -	Ahorapodremos manipular la información
+            return (
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>			- usamos map, no for each(este trabaja en el array original)
+                    < section>						con map, hacemos una copia, nos devuelve un nuevo array.		
+                        {
+                            cupcakes.map(c => < Cupcake />)
+                        }			
+                    < /section>					- Del array cupcakes que viene desde la Api, lo recorremos.. 
+                < div>							- Cada c (cupcake), renderiza un < Cupcake />
+            )	
+        }
+
+        export default Cupcakes
+        </code>
+        -------------------------------------------------------
+                En el archivo .. cupcakes.js
+
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+
+
+        const Cupcakes = () => {
+                                        
+            const [cupcakes, setCupcakes] = useState()					
+            
+            useEffect(() => {					
+                fetch("https://localhost:3050/cupcakes" )	
+                    .then(response => response.json())			
+                    .then(data => setCupcakes(data))				
+            }, [])
+                                        
+            return (
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>			
+                    {
+                        cupcakes ? (					-> Si cupcake existe renderizamos el resto.. De manera ternaria
+                            < section>							- Se ve mejor en líneas, separado.
+                                {
+                                    cupcakes.map(c => < Cupcake />)
+                                }			
+                            < /section>					
+                        ) : (< span>Cargando...< /span>)					-> De manera ternaria, veremos una u otra opción.
+                    }	
+                < /div>					* Cuando nos conectemos a una Api, darle la retroalimentación al usuario..			
+            )						- Que se encuentra en un estadod de carga.
+        }
+
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+    </pre>
+
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="4">4. Renderizando contenido desde una API</p>
+    <pre>
+        -------------------------------------------------------
+        Agregada el atributo de imagen en db.json
+    
+        El archivo Cupcake.js	-> 
+    
+        <code>
+        const Cupcake = ({ 				
+            descripcion, 
+            imagen, 
+            sabor, 
+            color, 
+            precio }) => {				
+            return (
+                
+                < div>	
+                    < img src={ imagen }" alt={ sabor } />
+                    < p>{descripcion}< /p>
+                    < span>Color: {color}< /span>
+                    < span>Precio: {precio}< /span>
+                < /div>	
+        
+            )
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+            -> En el archivo .. cupcakes.js
+        
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+        
+        
+        const Cupcakes = () => {
+                                        
+            const [cupcakes, setCupcakes] = useState()					
+            
+            useEffect(() => {					
+                fetch("https://localhost:3050/cupcakes" )	
+                    .then(response => response.json())			
+                    .then(data => setCupcakes(data))				
+            }, [])
+                                        
+            return (
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>			
+                    {
+                        cupcakes ? (					
+                            < section>							
+                                {
+                                    cupcakes.map(({
+                                        id,				-> El que agregamos.
+                                        descripcion,
+                                        imagen,
+                                        sabor,
+                                        color,
+                                        precio  
+                                    }) => (
+                                        < Cupcake 				- ES NECESARIO
+                                            key={id}		-> Le damos un valor único en función del id
+                                            imagen={imagen}
+                                            descripcion={descripcion}
+                                            sabor={sabor}
+                                            color={color}
+                                            precio={precio}
+                                        />
+                                    ))
+                                }			
+                            < /section>					
+                        ) : (< span>Cargando...< /span>)					
+                    }	
+                < /div>					
+            )						
+        }
+        
+        export default Cupcakes
+        </code>
+                            -> De esta manera nuestra aplicación ya se encontraría conectada al backend.
+        --------------------------------------------------------
+        Buena práctica
+            Siempre que se haga un .map 	-> En los componentes 
+                            -  El componente a renderizar NECESITA tener un id
+        
+        Agrega más cupcakes al db.json y además.. Agregarle estilos a la galería.
+        --------------------------------------------------------
+    </pre>>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="5">5. Utilizando variables de entorno</p>
+    <pre>
+        --------------------------------------------------------
+        - Para resolver el inconveniente de los estilos de la grilla y demás..
+        -> En el archivo .. cupcakes.js
+        
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+        
+        
+        const Cupcakes = () => {
+                                        
+            const [cupcakes, setCupcakes] = useState()					
+            
+            useEffect(() => {					
+                fetch("https://localhost:3050/cupcakes" )	
+                    .then(response => response.json())			
+                    .then(data => setCupcakes(data))				
+            }, [])
+                                        
+            return (
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>			
+                    {											- s small, m medium, lg large
+                        cupcakes ? (									-> Le agregamos estilos a los cupcakes
+                            < section className="ed-grid s-grid-2 m-grid-3 lg-grid-4 row-gap">							
+                                {
+                                    cupcakes.map(({
+                                        id,				
+                                        descripcion,
+                                        imagen,
+                                        sabor,
+                                        color,
+                                        precio  
+                                    }) => (
+                                        < Cupcake 				
+                                            key={id}		
+                                            imagen={imagen}
+                                            descripcion={descripcion}
+                                            sabor={sabor}
+                                            color={color}
+                                            precio={precio}
+                                        />
+                                    ))
+                                }			
+                            < /section>					
+                        ) : (< span>Cargando...< /span>)					
+                    }	
+                < /div>					
+            )						
+        }
+        
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+            El archivo Cupcake.js	-> 
+        
+        <code>
+        const Cupcake = ({ 				
+            descripcion, 
+            imagen, 
+            sabor, 
+            color, 
+            precio }) => {				
+            return (
+                < div clasName="s-radius-1 s-shadow-bottom background s-shadwo-card-micro white-color s-pxy-2">			-> Clases
+                    < img src={ imagen }" alt={ sabor } />
+                    < p>{descripcion}< /p>
+                    < span>Color: {color}< /span>
+                    < span>Precio: {precio}< /span>
+                < /div>	
+        
+            )
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+            Además le agregamos más valores al db.json.. Con valores que no se repitan, más el id.. "Auto incrementable"
+        --------------------------------------------------------
+            Ahora usaremos las variables de entorno..
+                        -> Cambián de acuerdo al entorno de desarrollo en el que encontramos.
+                        - En local o bien build para que funcione en producción..
+            -> Con Otro tipo de productos y servicios.. Si usamos varios fetch, lo ideal será tener un lugar adecuado para acomodar las variables de entorno
+                    - De esta manera a futuro si necesitamos cambiarlo, iremos a un único lugar, con un único cambio que repercutirá en el resto.
+        
+        Vamos a la carpeta raíz
+            - Creamos el archivo .env.example	-> En ese lugar pondremos como ejemplo, para que otros del equipo puedan modificarlo.
+        
+            .env.example
+        
+        REACT_APP_URL_API = "http://localhost:3050/"				-> REACT_APP_ estandard, colocarlo, de lo contrario react lo ignora.
+        
+            -> Se pueden agregar todas las necesarias
+        
+        El archivo .env.example	-> Es el que se sube al repositorio en git	-> Los demás no se suben.
+                                            -  A partir de ese ejemplo se modifica en la maquina local.
+        
+        Lo copiamos y renombramos para el proyecto propio..
+        
+                .env.local				-> Sirve para nuestro propio ambiente dev  
+        
+        REACT_APP_URL_API = "http://localhost:3050/"		-> Nuevamente		
+        
+        
+            -> Al agregar variables de entornos, es necesario detener el servidor y volver a lanzarlo	-> yarn start
+                        Para que reconozca los cambios
+        --------------------------------------------------------
+            -> En el archivo .. cupcakes.js
+        
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+        
+        
+        const Cupcakes = () => {
+                                        
+            const [cupcakes, setCupcakes] = useState()					
+                                            - Con process
+            useEffect(() => {						-> En el fetch, modificamos.. y agregamos a nuestra variable en local	
+                fetch(`${process.env.REACT_APP_URL_API}cupcakes`)	-> Le concatenamos el `cupcakes`
+                    .then(response => response.json())			
+                    .then(data => setCupcakes(data))				
+            }, [])
+                                        
+            return (
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>			
+                    {											
+                        cupcakes ? (									
+                            < section className="ed-grid s-grid-2 m-grid-3 lg-grid-4 row-gap">							
+                                {
+                                    cupcakes.map(({
+                                        id,				
+                                        descripcion,
+                                        imagen,
+                                        sabor,
+                                        color,
+                                        precio  
+                                    }) => (
+                                        < Cupcake 				
+                                            key={id}		
+                                            imagen={imagen}
+                                            descripcion={descripcion}
+                                            sabor={sabor}
+                                            color={color}
+                                            precio={precio}
+                                        />
+                                    ))
+                                }			
+                            < /section>					
+                        ) : (< span>Cargando...< /span>)					
+                    }	
+                < /div>					
+            )						
+        }
+        
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+            -> De esta manera no colocamos la url quemadas en el código directamente.. De lo contrario usamos variables de entorno.
+                - Ya que el valor puede variar de acuerdo al ambiente de desarrollo.
+        
+            -> Según json-server agregando ?title_like=server		-> Podremos filtrar en función del titulo
+        
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+        
+        
+        const Cupcakes = () => {
+                                        
+            const [cupcakes, setCupcakes] = useState()					
+                                            
+            useEffect(() => {						
+                fetch(`${process.env.REACT_APP_URL_API}cupcakes?sabor_like=fresa`)		-> Agregamos la extensión recomendada.
+                    .then(response => response.json())					-  Y traeremos solamente lo que deseemos
+                    .then(data => setCupcakes(data))					- Por lo cual se podría colocar un input y leer su contenido
+            }, [])											- Haciendo un buscador o filtrando el contenido.
+                                        
+            return (
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>			 
+                    {											
+                        cupcakes ? (									
+                            < section className="ed-grid s-grid-2 m-grid-3 lg-grid-4 row-gap">							
+                                {
+                                    cupcakes.map(({
+                                        id,				
+                                        descripcion,
+                                        imagen,
+                                        sabor,
+                                        color,
+                                        precio  
+                                    }) => (
+                                        < Cupcake 				
+                                            key={id}		
+                                            imagen={imagen}
+                                            descripcion={descripcion}
+                                            sabor={sabor}
+                                            color={color}
+                                            precio={precio}
+                                        />
+                                    ))
+                                }			
+                            < /section>					
+                        ) : (< span>Cargando...< /span>)					
+                    }	
+                < /div>					
+            )						
+        }
+        
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+            ->en el archivo home.js 	-> Dentro de la carpeta pages
+
+        <code>
+        import Cupcakes from "./cupcakes";
+        
+        const Home = () => ( 
+        <>
+            < div className="main-banner img-container dark-color">
+                        
+                < div className="ed-grid lg-grid-6">
+                
+                    < div class="lg-cols-4 lg-x-2">
+                        < img 
+                            className="main-banner__img" 							
+                            src="https://images.pexels.com/photos/265614/pexels-photo-265614.jpeg?		w=1260&amp;h=750&amp;auto=compress&amp;cs=tinysrgb" 
+                            alt="banner"/>
+                
+                        < div className="main-banner__data s-center">
+                    
+                            < p className="s-mb-0 t2">Bienvenido a Cupcakes< /p>
+                    
+                            < p>Un sitio lleno de Sabor!!!< /p>
+                            < a className="button" href="/">Ver Cupcakes< /a>
+                
+                        < /div>
+                
+                    < /div>
+            
+                < /div>
+            
+            < /div>
+            < Cupcakes />			-> De esta manera en el home tendría la página de cupcakes
+        </>						- La petición que nos provee json-server la tendremos que hacer dinámica para mostrar algunos u otros.
+        )					
+        
+        export default Home
+        </code>          
+        --------------------------------------------------------
+                -> En el archivo cupcakes.js
+        
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+        
+        
+        const Cupcakes = ({ peticion }) => {			-> Como propiedad recibimos la url de la petición..
+                                        
+            const [cupcakes, setCupcakes] = useState()					
+                                            
+            useEffect(() => {						
+                fetch(`${process.env.REACT_APP_URL_API }`)			-> Lo haremos de manera dinámica, concatenando la petición..
+                    .then(response => response.json())						Que recibimos como pros arriba.
+                    .then(data => setCupcakes(data))					
+            }, [])											
+                                        
+            return (
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>			
+                    {											
+                        cupcakes ? (									
+                            < section className="ed-grid s-grid-2 m-grid-3 lg-grid-4 row-gap">							
+                                {
+                                    cupcakes.map(({
+                                        id,				
+                                        descripcion,
+                                        imagen,
+                                        sabor,
+                                        color,
+                                        precio  
+                                    }) => (
+                                        < Cupcake 				
+                                            key={id}		
+                                            imagen={imagen}
+                                            descripcion={descripcion}
+                                            sabor={sabor}
+                                            color={color}
+                                            precio={precio}
+                                        />
+                                    ))
+                                }			
+                            < /section>					
+                        ) : (< span>Cargando...< /span>)					
+                    }	
+                < /div>					
+            )						
+        }
+        
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+            Ahora en el App.js		-> Que será el menú principal, manipularemos la data que viene de la petición..
+        
+        <code>
+        import "../styles/styles.scss"			
+        import Header from "./sections/Header"			
+        import Home from "./pages/home"					
+        import Cupcakes from "./pages/cupcakes"
+        import AboutUs from "./pages/aboutUs";
+        import {
+            BrowserRouter as Router,
+            Switch						
+            Route	
+        } from "react-router-dom";
+        
+        const App = () => (
+            < Router>					
+                            
+                < Header />						
+                < Switch> 	 								-> En la página de cupcakes veremos TODOS		
+                    < Route path="/cupcakes">< Cupcakes peticion="cupcakes"/>< /Route>		
+                    < Route path="/nosotros">< AboutUs />< /Route>			
+                    < Route path="/">< Home />< /Route>
+                < /Switch>
+            < Router/>
+        )							
+        
+        export default App
+        </code>
+        --------------------------------------------------------
+            ->Mientras que en el archivo home.js 	-> Dentro de la carpeta pages
+        
+        <code>
+        import Cupcakes from "./cupcakes";
+        
+        const Home = () => ( 
+        <>
+            < div className="main-banner img-container dark-color">
+                        
+                < div className="ed-grid lg-grid-6">
+                
+                    < div class="lg-cols-4 lg-x-2">
+                        < img 
+                            className="main-banner__img" 							
+                            src="https://images.pexels.com/photos/265614/pexels-photo-265614.jpeg?		w=1260&amp;h=750&amp;auto=compress&amp;cs=tinysrgb" 
+                            alt="banner"/>
+                
+                        < div className="main-banner__data s-center">
+                    
+                            < p className="s-mb-0 t2">Bienvenido a Cupcakes< /p>
+                    
+                            < p>Un sitio lleno de Sabor!!!< /p>
+                            < a className="button" href="/">Ver Cupcakes< /a>
+                
+                        < /div>
+                
+                    < /div>
+            
+                < /div>
+            
+            < /div>
+            < Cupcakes peticion="cupcakes?sabor_like=fresa"/>			-> Le pasaremos el filtrado que nos provee json-server
+        </>										-> En el de inicio veremos SOLO DE FRESA			
+        )					
+        
+        export default Home
+                                -> También podríamos validar el título, que aparezca o no.
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="6">6. Escuchando cambios en la petición y manejando errores</p>
+    <pre>
+        -------------------------------------------------------
+        -> en el archivo cupcakes.js
+    
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+        
+        
+        const Cupcakes = ({ peticion, title }) => {			-> Le pasamos además el title
+                                        
+            const [cupcakes, setCupcakes] = useState()					
+                                            
+            useEffect(() => {						
+                fetch(`${process.env.REACT_APP_URL_API}${peticion}`)			
+                    .then(response => response.json())						
+                    .then(data => setCupcakes(data))					
+            }, [])											
+                                        
+            return (
+                < div className="ed-grid">
+                    { title && < h1>Página de cupcakes< /h1> }			-> Si no existe title, directamente no lo imprime.
+                    {											
+                        cupcakes ? (									
+                            < section className="ed-grid s-grid-2 m-grid-3 lg-grid-4 row-gap">							
+                                {
+                                    cupcakes.map(({
+                                        id,				
+                                        descripcion,
+                                        imagen,
+                                        sabor,
+                                        color,
+                                        precio  
+                                    }) => (
+                                        < Cupcake 				
+                                            key={id}		
+                                            imagen={imagen}
+                                            descripcion={descripcion}
+                                            sabor={sabor}
+                                            color={color}
+                                            precio={precio}
+                                        />
+                                    ))
+                                }			
+                            < /section>					
+                        ) : (< span>Cargando...< /span>)					
+                    }	
+                < /div>					
+            )						
+        }
+        
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+            Ahora en el App.js		
+
+        <code>
+        import "../styles/styles.scss"			
+        import Header from "./sections/Header"			
+        import Home from "./pages/home"					
+        import Cupcakes from "./pages/cupcakes"
+        import AboutUs from "./pages/aboutUs";
+        import {
+            BrowserRouter as Router,
+            Switch						
+            Route	
+        } from "react-router-dom";
+        
+        const App = () => (
+            < Router>					
+                            
+                < Header />						
+                < Switch> 	 								
+                    < Route path="/cupcakes">< Cupcakes title peticion="cupcakes"/>< /Route>		-> Como es una página le pasamos el title..
+                    < Route path="/nosotros">< AboutUs />< /Route>			
+                    < Route path="/">< Home />< /Route>
+                < /Switch>
+            < Router/>
+        )							
+        
+        export default App
+        </code>
+        --------------------------------------------------------
+            ->Mientras que en el archivo home.js 	-> Dentro de la carpeta pages
+        
+        <code>
+        impory Banner from "../sections/Banner";			-> Además le agregamos el Banner
+        import Cupcakes from "./cupcakes";
+        
+        const Home = () => ( 
+            <>
+                < Banner />						-> Más fácil de leer	
+                < Cupcakes peticion="cupcakes?sabor_like=fresa"/>			-> No le pasamos el title, por lo cual no lo imprime..
+            </>										
+        )					
+        
+        export default Home
+        </code>
+        --------------------------------------------------------
+            Creamos el componente Banner.js		-> Como componente presentacional.
+        
+        <code>
+        conts Banner = () => (
+            < div className="main-banner img-container dark-color">
+                        
+                < div className="ed-grid lg-grid-6">
+                
+                    < div class="lg-cols-4 lg-x-2">
+                        < img 
+                            className="main-banner__img" 							
+                            src="https://images.pexels.com/photos/265614/pexels-photo-265614.jpeg?		w=1260&amp;h=750&amp;auto=compress&amp;cs=tinysrgb" 
+                            alt="banner"/>
+                
+                        < div className="main-banner__data s-center">
+                    
+                            < p className="s-mb-0 t2">Bienvenido a Cupcakes< /p>
+                    
+                            < p>Un sitio lleno de Sabor!!!< /p>
+                            < a className="button" href="/">Ver Cupcakes< /a>
+                
+                        < /div>
+                
+                    < /div>
+            
+                < /div>
+            
+            < /div>					-> Las propiedades también pueden pasarse como props..
+        )					  
+        
+        export default Banner				
+        </code>
+        --------------------------------------------------------
+                -> En el archivo cupcakes.js
+        
+        <code>
+        import { useEffect, useState } from "react"
+        import Cupcake from "../cards/Cupcake";
+        
+        const Cupcakes = ({ peticion }) => {			
+                                        
+            const [cupcakes, setCupcakes] = useState()					
+                                            
+            useEffect(() => {						
+                fetch(`${process.env.REACT_APP_URL_API }`)			-> El fetch como promise también debe tener un catch	
+                    .then(response => response.json())						En caso de error
+                    .then(data => setCupcakes(data))					
+                    .catch(e => console.log(e))			- Manejo de errores, para comunicarle al usuario de manera retoralimentativa. 
+            }, [peticion])						-> Le pasamos la peticion, en caso de volver a renderizar.
+                                            - Ya que petición puede cambiar en alguna situación.			
+            return (							- Si cambia lo volvemos a renderizar.
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>			
+                    {											
+                        cupcakes ? (									
+                            < section className="ed-grid s-grid-2 m-grid-3 lg-grid-4 row-gap">							
+                                {
+                                    cupcakes.map(({
+                                        id,				
+                                        descripcion,
+                                        imagen,
+                                        sabor,
+                                        color,
+                                        precio  
+                                    }) => (
+                                        < Cupcake 				
+                                            key={id}		
+                                            imagen={imagen}
+                                            descripcion={descripcion}
+                                            sabor={sabor}
+                                            color={color}
+                                            precio={precio}
+                                        />
+                                    ))
+                                }			
+                            < /section>					
+                        ) : (< span>Cargando...< /span>)					
+                    }	
+                < /div>					
+            )						
+        }
+        
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="7">7. Peticiones HTTP con AXIOS</p>
+    <pre>
+        --------------------------------------------------------
+        Con fetch hacemos peticiones de manera nativa..	
+        Pero podemos usar Axios.
+            - Peticiones http de manera más sencilla
+    
+        Desde consola..
+        
+            -> yarn add axios			-> Agregamos la dependencia.
+        
+        --------------------------------------------------------
+            Para usar aXIOS..
+                -> En el archivo cupcakes.js
+        
+        <code>
+        import { useEffect, useState } from "react"
+        import Axios from "axios"				-> Importamos
+        import Cupcake from "../cards/Cupcake";
+        
+        
+        const Cupcakes = ({ peticion }) => {			
+                                        
+            const [cupcakes, setCupcakes] = useState()					
+                                            
+            useEffect(() => {						
+                Axios.get(`${process.env.REACT_APP_URL_API }`)			
+                    .then(response => response.json())			-> Axios no necesita convertir en formato json la peticion..la quitamos
+                    .then(data => setCupcakes(data.data))							Destructuramos abajo..
+                    .catch(e => console.log(e))			
+            }, [peticion])						
+                                            
+            return (							
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>			
+                    {											
+                        cupcakes ? (									
+                            < section className="ed-grid s-grid-2 m-grid-3 lg-grid-4 row-gap">							
+                                {
+                                    cupcakes.map(({
+                                        id,				
+                                        descripcion,
+                                        imagen,
+                                        sabor,
+                                        color,
+                                        precio  
+                                    }) => (
+                                        < Cupcake 				
+                                            key={id}		
+                                            imagen={imagen}
+                                            descripcion={descripcion}
+                                            sabor={sabor}
+                                            color={color}
+                                            precio={precio}
+                                        />
+                                    ))
+                                }			
+                            < /section>					
+                        ) : (< span>Cargando...< /span>)					
+                    }	
+                < /div>					
+            )						
+        }
+        
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+                -> En el archivo cupcakes.js
+
+        <code>                
+        import { useEffect, useState } from "react"
+        import { get } from "axios"				-> O bien para evitar importar toda la libreía solo lo que usaremos
+        import Cupcake from "../cards/Cupcake";
+        
+        const Cupcakes = ({ peticion }) => {			
+                                        
+            const [cupcakes, setCupcakes] = useState()					
+                                            
+            useEffect(() => {						
+                get(`${process.env.REACT_APP_URL_API }`)			-> Solo usamos el método get						
+                    .then(({ data }) => setCupcakes(data))				-> El atributo que nos provee Axios es "data"
+            }, [peticion])										- Destructuramos
+                                            
+            return (							
+                < div className="ed-grid">
+                    < h1>Página de cupcakes< /h1>			
+                    {											
+                        cupcakes ? (									
+                            < section className="ed-grid s-grid-2 m-grid-3 lg-grid-4 row-gap">							
+                                {
+                                    cupcakes.map(({
+                                        id,				
+                                        descripcion,
+                                        imagen,
+                                        sabor,
+                                        color,
+                                        precio  
+                                    }) => (
+                                        < Cupcake 				
+                                            key={id}		
+                                            imagen={imagen}
+                                            descripcion={descripcion}
+                                            sabor={sabor}
+                                            color={color}
+                                            precio={precio}
+                                        />
+                                    ))
+                                }			
+                            < /section>					
+                        ) : (< span>Cargando...< /span>)					
+                    }	
+                < /div>					
+            )						
+        }
+        
+        export default Cupcakes
+        </code>
+                            -> Desde la ventana network podemos ver la respuesta que nos provee Axios
+                                - De manera destructurada lo vemos "formateado" ordenada
+                                - AXIOS lo empaqueta en un objeto "data"
+                    Solo usamos get de manera destructurada en este ejemplo, podemos hacer lo mismo con los demás verbos o acciones http
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+    
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="../4/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../6/index.html">Siguiente</a>
+    </div>
+
+</body>
+</html>

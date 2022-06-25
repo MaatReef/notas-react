@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción React</title>
+    <link rel="shortcut icon" type=image/jpg href="../../img/logo/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <div class="context">
+        <a href="../6/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../8/index.html">Siguiente</a>
+    </div>
+    <div class="contenido" id="arriba">
+        <p>React - Notas</p>
+    </div>
+
+    <h1>7 - Optimización y despliegue</h1>
+    <ul>
+        <li>
+            <a href="#1">7.1 - Duplicando código innecesariamente</a>
+        </li>
+        <li>
+            <a href="#2">7.2 - Creando nuestro propio hook</a>
+        </li>
+        <li>
+            <a href="#3">7.3 - Utilizando nuestro propio hook</a>
+        </li>
+        <li>
+            <a href="#4">7.4 - Manejo de errores con hook</a>
+        </li>
+        <li>
+            <a href="#5">7.5 - Prop Types</a>
+        </li>
+        <li>
+            <a href="#6">7.6 - Default props</a>
+        </li>
+        <li>
+            <a href="#7">7.7 - Build y deploy</a>
+        </li>      
+    </ul>
+
+    <p id="1">1. Duplicando código innecesariamente</p>
+    <pre>
+        -------------------------------------------------------
+        -> Ahora apuntaremos a las buenas prácticas, buena estructura.
+                - Para un buen uso de React.
+    
+        El archivo db.json	-> Tiene un array de "cupcakes"
+                    Le agregamos otro array, uno de "servicios"
+        
+                        -> Ahora tendremos 2 endpoints, los "cupcakes" y los "servicios"
+        <code>
+        {
+            "cupcakes": [			-> Array con TODOS los cupcakes
+            ],	
+            "servicios": [
+                {
+                    "id": 1,
+                    "nombre": "Curso de Repostería",
+                    "descripcion": "Este es un curso desde cero que te enseñará a hacer cupcakes."
+                },
+                {
+                    "id": 2,
+                    "nombre": "Delivery a toda la ciudad",
+                    "descripcion": "Pide desde donde quieras y los cupcakes llegarán a tu casa"
+                }
+            ]
+            
+        }
+        </code>
+        --------------------------------------------------------
+            - Ahora debemos agregar los servicios.
+            ->Mientras que en el archivo home.js 	-> Dentro de la carpeta pages
+        
+        <code>            
+        impory Banner from "../sections/Banner";			
+        import Cupcakes from "./cupcakes";
+        
+        const Home = () => ( 
+            <>
+                < Banner />						
+                < Cupcakes peticion="cupcakes?sabor_like=fresa"/>			
+                < Servicios peticion="servicios" />						-> Debemos crear ese componente.. Servicios
+            </>										
+        )					
+        
+        export default Home
+        </code>
+        --------------------------------------------------------
+            Dentro de la carpeta sectiones	-> Creamos el archivo Servicios.js
+            Este componente hará CASI lo mismo que el componente de los cupcakes
+        
+        <code>    
+        import { useEffect, useState } from "react"
+        import { get } from "axios"					-> Por cada vez que copiamos código, es probable que haya una mejor manera de hacerlo.
+        
+        const Servicios = ({ peticion }) => {
+        
+            const [servicios, setServicios] = useState
+        
+            useEffect(() => {							-> Esta sección luego la limpiamos.. 
+                get(`${process.env.REACT_APP_URL_API}${peticion}`)			- Debemos crear una función que haga esto las veces deseadas
+                    .then(({ data }) => setServicios(data))				- Tanto en cupcakes como en servicios será lo mismo.
+            }, [peticion])
+        
+            if(!servicios) {
+                return < span>No Hay servicios< /span>
+            }
+            return (
+                < div className="ed-grid">
+                    {
+                        servicios.map(s => (
+                            < div key={s.id}>
+                                < h2>{s.nombre}< /h2>
+                                < p>{s.descripcion}< /p>
+                            < /div>
+                        ))
+                    }
+                < /div>
+            )
+        }
+        
+        export default Servicios			
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="2">2. Creando nuestro propio hook</p>
+    <pre>
+        --------------------------------------------------------
+        Cada vez que dentro de un hook tenemos lógica repetida, es momento de crear nuestros propios Hooks..
+    
+        Creamos dentro de la carpeta src.. Una carpeta llamada hooks
+            -> Acá creamos nuestros propios hooks..
+                    - Deben empezar con useFetch.js		-> Este hook nos traerá data desde el servidor.
+        
+            En el archivo useFetch.js
+
+        <code>   
+        import { useEffect, useState } from "react"			-> importamos el useEffect y el get de Axios
+        import { get } from "axios"					-  nuestro hook depende de axios, podemos usar fetch y evitar el uso de axios.
+        
+                                Nuestro hook -> Es una función que recibe los valores distintos que tienen cupcakes y servicios
+                                    - Recibe el endpoint como url.. Hacemos la lógica
+        const useFetch = (endpoint) => {				
+            const [ data, setData ] = useState()			
+            
+        
+            useEffect (() => {
+                    get(`${process.env.REACT_APP_URL_API}${endpoint}`)
+                        .then(({ data }) => setData(data))
+            }, [endpoint])
+        
+            return data			-> Podremos retornar siempre lo que necesitemos.
+        
+        }
+        
+        export default useFetch
+                            -> De esta manera creamos nuestro hook, llevando la lógica que necesitemos hacia otra función.
+                        Este hook lo usaremos ahora en el archivo de cupcakes y en el de servicios.
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="3">3. Utilizando nuestro propio hook</p>
+    <pre>
+        --------------------------------------------------------
+		-> Debemos quitar el useEffect y el useState de nuestros archivos de cupcakes y de servicios..
+		-  También debemos quitar el axios.
+
+        Ahora en nuestroa archivo cupcakes.js	-> Dentro de la carpeta pages
+
+        <code>
+        import useFetch from "../../hooks/useFetch"			-> Importamos el useFetch nuestro hook
+        import Cupcake from "../cards/Cupcake"
+
+        const Cupcakes = ({ peticion, title }) => {
+
+            const [cupcakes] = useFetch(peticion)		-> Declaramos el cupcakes usando nuestro hook pasandole la peticion.
+                                    - La petición que anteriormente quedaba inmensa ahora la reducimos a su mínima expresión.	
+        return (
+            < div className="ed-grid">
+            { title && < h1>Página de cupcakes< /h1> }
+            {
+                cupcakes ? (
+                < section className="ed-grid s-grid-2 m-grid-3 lg-grid-4 row-gap">
+                    {
+                    cupcakes.map(({
+                        id,
+                        descripcion,
+                        imagen,
+                        sabor,
+                        color,
+                        precio
+                    }) => (
+                        < Cupcake
+                        key={id}
+                        imagen={imagen}
+                        descripcion={descripcion}
+                        sabor={sabor}
+                        color={color}
+                        precio={precio}
+                        />
+                    ))
+                    }
+                < /section>
+                ) : (
+                < span>Cargando...< /span>
+                )
+            }
+            < /div>
+        )
+        }
+
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+            Lo mismo haremos con el archivo Servicios.js dentro de la carpeta de sections..
+
+        <code>
+        import useFetch from "../../hooks/useFetch"			-> Importamos nuestro hook
+
+        const Servicios = ({ peticion }) => {
+
+        const [servicios, error] = useFetch(peticion)			-> 
+
+        if(error) {
+            return < span>Hubo un error< /span>
+        }
+        if(!servicios || servicios.length === 0) {
+            return < span>No hay servicios< /span>
+        }
+        return (
+            < div className="ed-grid">
+            {
+                servicios.map(s => (
+                < div key={s.id}>
+                    < h2>{s.nombre}< /h2>
+                    < p>{s.descripcion}< /p>
+                < /div>
+                ))
+            }  
+            < /div> 
+        )
+        }
+
+        export default Servicios
+        </code>
+        --------------------------------------------------------
+            En nuestro hook.. useFetch.js dentro de la carpeta de hooks.. Ahora retornaremos el error además de la data.
+
+        <code>
+        import { useEffect, useState } from "react"
+        import { get } from "axios"
+
+        const useFetch = (endpoint) => {
+        const [ data, setData ] = useState()			-> Dejar el useState()	- como ('nulo') => ()
+        const [ error, setError] = useState()					-> El error será otro uso del estado, cuando tengamos algún error.
+
+        useEffect (() => {
+            get(`${process.env.REACT_APP_URL_API}${endpoint}`)
+            .then(({ data }) => setData(data))
+            .catch(err => setError(err))				-> Tomaremos en consideración el error, le pasamos el error
+        }, [endpoint])
+
+        return [data, error]							-> Y retornamos un Arreglo, no ya solo un solo objeto.
+
+        }
+
+        export default useFetch
+        </code>
+        --------------------------------------------------------
+            Por lo tanto ahora en Servicios.js
+
+        <code>
+        import useFetch from "../../hooks/useFetch"
+
+        const Servicios = ({ peticion }) => {
+
+        const [servicios, error] = useFetch(peticion)			-> Tendremos el array que retornamos desde nuestro hook
+                                        
+        if(error) {
+            return < span>Hubo un error< /span>				-> En caso de error, lo mostraremos.
+        }
+        if(!servicios || servicios.length === 0) {
+            return < span>No hay servicios< /span>			
+        }
+        return (
+            < div className="ed-grid">
+            {
+                servicios.map(s => (
+                < div key={s.id}>
+                    < h2>{s.nombre}< /h2>
+                    < p>{s.descripcion}< /p>
+                < /div>
+                ))
+            }  
+            < /div> 
+        )
+        }
+
+        export default Servicios
+        </code>
+        --------------------------------------------------------        
+            -> Lo mismo haremos con el manejo de errores en cupcakes.js
+
+        <code>
+        import useFetch from "../../hooks/useFetch"
+        import Cupcake from "../cards/Cupcake"
+
+        const Cupcakes = ({ peticion, title }) => {
+                                    -  Así manejamos el error..
+        const [cupcakes] = useFetch(peticion)			-> Si fuera necesario, lo agregamos .. const [cupcakes, error] = useFetch(peticion)			
+
+        return (
+            < div className="ed-grid">
+            { title && < h1>Página de cupcakes< /h1> }
+            {
+                cupcakes ? (
+                < section className="ed-grid s-grid-2 m-grid-3 lg-grid-4 row-gap">
+                    {
+                    cupcakes.map(({
+                        id,
+                        descripcion,
+                        imagen,
+                        sabor,
+                        color,
+                        precio
+                    }) => (
+                        < Cupcake
+                        key={id}
+                        imagen={imagen}
+                        descripcion={descripcion}
+                        sabor={sabor}
+                        color={color}
+                        precio={precio}
+                        />
+                    ))
+                    }
+                < /section>
+                ) : (
+                < span>Cargando...< /span>
+                )
+            }
+            < /div>
+        )
+        }
+
+        export default Cupcakes
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="4">4. Manejo de errores con hook</p>
+    <pre>
+        --------------------------------------------------------
+        -> Para efectos prácticos forzamos el error.. Al modificar el nombre de nuestro endpoints en la base de datos..
+            - En "servicios"		=> Lo cambiamos a "servicios123"
+                Habrá un fallo
+    
+        <code>    
+        import useFetch from "../../hooks/useFetch"
+        
+        const Servicios = ({ peticion }) => {
+        
+        const [servicios, error] = useFetch(peticion)
+        
+        if(error) {		
+            return < span>Hubo un error< /span>				-> Tendremos la validación en pantalla de que el error existe.
+        }								-< span>{JSON.stringify(error)}< /span>	-> Podemos acceder a un valor y mostrar un Mensaje.
+        if(!servicios || servicios.length === 0) {
+            return < span>No hay servicios< /span>		-> Si el array viene vacío desde la base de datos en servicios, no hay servicios.
+        }
+        return (
+            < div className="ed-grid">
+            {
+                servicios.map(s => (
+                < div key={s.id}>						*De esta manera manejando los errores, nuestra aplicación no se romperá*
+                    < h2>{s.nombre}< /h2>						*Continuará funcionando*
+                    < p>{s.descripcion}< /p>
+                < /div>		
+                ))
+            }  
+            < /div> 
+        )
+        }
+        
+        export default Servicios 
+        </code>
+        --------------------------------------------------------
+    </pre> 
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="5">5. Prop Types</p>
+    <pre>
+        --------------------------------------------------------
+        Primero debemos instalar la librería Prop Types		-> Su ducumentación se encuentra en npm, prop-types npm
+                                                            -> Ya que maneja otros datos a validar.	
+            -> yarn add prop-types			-> Instalado lo debemos importar
+        
+        --------------------------------------------------------
+            Ya sabemos que los props son esos datos que recibimos de nuestros componentes.. Haciendo que impriman información.
+            
+            En el componento Cupcake.js dentro de la carpeta card	-
+                    - Debemos asegurarnos que lo que recibimos tenga un formato predeterminado
+        
+        <code>
+        import { number, string } from "prop-types"		-> Importamos la librería		Y debemos importar como PropTypes		
+                                        - De manera desestructurada. 	De lo contrario usamos PropTypes.string
+        const Cupcake = ({							
+          descripcion,
+          imagen,
+          sabor,
+          color,
+          precio
+        }) => {
+          return (
+            < div className="s-radius-1 s-shadow-bottom background s-shadow-card-micro white-color s-pxy-2">
+              < img src={ imagen } alt={ sabor } />
+              < p>{descripcion}< /p>
+              < span>Color: {color}< /span>
+              < span>Precio: {precio}< /span>
+            < /div>
+          )
+        }					-  De esta manera nos aseguramos que la data tenega un formato específico..
+                            -> Luego de escribir mi función, con el nombre del componente, declaramos los propTypes..
+        Cupcake.propTypes = {
+          precio: number,				- number
+          color: string.isRequired,			- string requerido		No rompe la aplicación pero declara un WARNING
+          descripcion: string.isRequired,					- Puede que el error venga desde Backend, de esta manera nos aseguramos.
+          sabor: string.isRequired,						- Podemos validar, function, boolean, objeto, string, etc..
+          imagen: string
+        }
+        
+        Cupcake.defaultProps = {
+          imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbM0fTTZj4D2yYcWu28YzW_XP96oa9ZBmDiQ&usqp=CAU",
+          precio: 0
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------            
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="6">6. Default props</p>
+    <pre>
+        -------------------------------------------------------
+        <code>
+        import { number, string } from "prop-types"
+        
+        const Cupcake = ({
+          descripcion,
+          imagen,
+          sabor,
+          color,
+          precio
+        }) => {
+          return (
+            < div className="s-radius-1 s-shadow-bottom background s-shadow-card-micro white-color s-pxy-2">
+              < img src={ imagen } alt={ sabor } />
+              < p>{descripcion}< /p>
+              < span>Color: {color}< /span>
+              < span>Precio: {precio}< /span>
+            < /div>
+          )
+        }
+        
+        Cupcake.propTypes = {						-En consola, tendremos la advertencia Warning..	
+          precio: number,					-> Este no será requerido y por defecto.. Más abajo será 0 si no lo tendremos.
+          color: string.isRequired,				-> isRequired.. Estos valores tendrán siempre contenido.
+          descripcion: string.isRequired,
+          sabor: string.isRequired,
+          imagen: string				
+        }				
+                        -> Los propTypes: Son valores por defecto, en caso de no recibirlos desde la base de datos.. - Los trendemos por defecto.
+        Cupcake.defaultProps = {
+          imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbM0fTTZj4D2yYcWu28YzW_XP96oa9ZBmDiQ&usqp=CAU",
+          precio: 0
+        }				-> Precio 0
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+        Como recomendación, usar los propTypes, como los defaultProps		-> Ambos son importantes
+        
+                Por ejemplo, es útil para ciertos tipos de valores..
+                    - En el ejemplo de facebook si la foto de perfil no se coloca, se agrega una por defecto.
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="7">7. Build y deploy</p>
+    <pre>
+        --------------------------------------------------------
+            Debemos agregar los botones.. En caso de vender o reservar..
+                             Y usaremos el metodo Put, patch	-> Conectandonos a la base de datos.
+                            Agregandole el estado de vendido
+        
+            La base de datos deberá tener entonces un valor de "vendido": en true o false
+                                - Y actualizarlo el estado cuando se venda, de false a true
+        --------------------------------------------------------
+        Como enviarsela al cliente..
+            - En el package.json		-> Veremos el comando "build": "react-scripts build"
+        
+        En la carpeta en la cual desarrollamos..
+        
+            -> yarn build		- Comando que hace un empaquetado, para deployear nuestro sitio web, como si fuera un html, css o js, de toda la vida
+                        - Por lo cual dejará de usarse el node_modules de manera dinámica
+                            Crea un empaquetado
+        
+        Creamos luego de esto la carpeta build..
+        
+            -> cd build
+        
+            -> ls		-> Con sus respectivos archivos
+        
+        Abrimos la carpeta con nuestro vscode..	
+        
+        Podremos ver el proyecto desde de Visual studio code..
+                        - Tendremos entonces el sitio empaquetado totalmente funcional..
+                                - html, css y js	-> Nos olvidamos de REACT			
+        
+        --------------------------------------------------------
+        Para subirlo a la nube.. 	Usamos netlify.app		-> Podríamos usar git
+        
+        Solo subimos la carpeta BUILD	-> Solamente esta.
+        
+                -> Usaría nuestro localhost en nuestro servidor.. 	
+        -------------------------------------------------------- 
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <br>
+    <br>
+
+    
+    <br> 
+    <br>
+
+    
+    <div class="context">
+        <a href="../6/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../8/index.html">Siguiente</a>
+    </div>
+
+</body>
+</html>

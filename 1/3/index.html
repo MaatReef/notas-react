@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción React</title>
+    <link rel="shortcut icon" type=image/jpg href="../../img/logo/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <div class="context">
+        <a href="../2/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../4/index.html">Siguiente</a>
+    </div>
+    <div class="contenido" id="arriba">
+        <p>React - Notas</p>
+    </div>
+
+    <h1>3 - Componentes</h1>
+    <ul>
+        <li>
+            <a href="#1">3.1 - Qué son los componentes</a>
+        </li>
+        <li>
+            <a href="#2">3.2 - Componentes presentacionales</a>
+        </li>
+        <li>
+            <a href="#3">3.3 - Destructuración de props</a>
+        </li>
+        <li>
+            <a href="#4">3.4 - Componentes de clase</a>
+        </li>
+        <li>
+            <a href="#5">3.5 - El estado de los componentes</a>
+        </li>
+        <li>
+            <a href="#6">3.6 - Actualizando el estado</a>
+        </li>
+        <li>
+            <a href="#7">3.7 - React developers tools</a>
+        </li>
+        <li>
+            <a href="#8">3.8 - Ciclo de vida de los componentes</a>
+        </li>
+    </ul>
+
+    <p id="1">1. Qué son los componentes</p>
+    <pre>
+        --------------------------------------------------------
+
+        Concepto Clave de React	-> 	*Son piezas de Código Reutilizables*
+            
+            - Ejemplo: El componenete < Cupcake /> nos permite crear cupcakes de diferentes sabores y colores.
+        
+        <code>
+        < Cupcake color="rosa" sabor="vainilla" />
+                                -> Los componentes pueden tener Estado. Valores que pueden cambiar xEj. {vendido: true}
+        < Cupcake color="azul" sabor="chocolate" />		
+        </code>
+        
+            -> En este caso color y sabor son propiedades 	-> "PROPS"
+        
+        *De esta manera si necesitamos muchos cupcakes en nuestra app, declaramos una vez un cupcake indicando que datos necesita*
+        Por lo cual luego invocamos a ese componente las veces necesarias.. 
+        
+        Cada cupcake tendrà solamente 1 elemento padre (por ejemplo, un div).. 
+            - Si instanciamos 200 veces el mismo modelo cupcake, encontraremos 200 div, con información interna que puede variar.
+        
+            - Invocamos el elemento cupcake, y le pasamos sus PROPS.. < Cupacke color="..." sabor="..." />
+        
+                            - Las props en html las conocemos como atributos.
+        
+        Las props no cambian son solamente de Lectura.. No se pueden manipular.
+        
+            -> Eso sí, puede que necesitamos valores que puedan cambiar, por ejemplo.. Un cupcake que se haya 'vendido'
+                                                                - True	
+                                                                - False
+                                        - Si quisieramos ver los que que quedan en strock, imprimiriamos los vendido en false..
+                                        - Y en otra sección mostrar los vendidos, los vendido en true..
+            Al momento de comprar, queremos cambiar el valor de ese cupcake.. Entre False a True
+            -> Cuando necesitemos de esto, nos referimos al ESTADO DEL COMPONENTE.
+                        -> Vendido Falso	- Vendido Verdadero.
+        
+        -> Por lo cual, cuando nombramos a las PROPS	-> Son valores que serán leídos e impresos, no variarán.. No serán manipulados. 
+        
+        ->				   el  ESTADO 	-> Lo que varía entre True y False, serán manipulados.
+            
+        
+        --------------------------------------------------------
+            Los componentes se Pueden escribir de 2 formas..
+        
+            - Función		
+        <code>
+        function Cupcake({color, sabor}) {
+            return (
+                < p className={color}> { sabor } < /p>
+            )
+        }
+        </code>
+        
+            - Clase		-> De esta manera se usa menos..
+
+        <code>
+        class Cupcake extends Component {
+            render() {
+                return (
+                    < p className={this.props.color}> { this.props.sabor } < /p>
+                )
+            }
+        }
+        </code>
+        -------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="2">2. Componentes presentacionales</p>
+    <pre>
+        --------------------------------------------------------
+        Cada componente debe devolver un elemento padre, que estará compuesto de diversos elementos hijos.
+        
+            -> En app.js
+        
+        <code>            
+        const App = () => {
+            < div>
+                < Cupcake color="rosa" sabor="vainilla">		
+                < Cupcake color="azul" sabor="chocolate">		
+            </ div>
+        };
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            Ahora creamos el componenete Cupcake.. 
+            En la carpeta src	-> Creamos el archivo Cupcake.js
+        
+        <code>
+        function Cupcake(props) {				-> Componente presentacional o dummie ("tonto", no hace nada, no tiene lógica)
+        
+            console.log(props)		
+            
+        
+            return (
+                < div>
+                    < h2>----< /h2>			-> Tanto el sabor como el tipo deben insertarse de manera dinámica.
+                    < p>Sabor: ****< /p>
+                < /div>
+            )
+        }
+        
+        export default Cupcake				-> Así creamos nuestro primer componente.
+        </code>
+        --------------------------------------------------------
+            -> En app.js
+
+        <code>
+                                    - .js la extensión no es necesaria ponerla, se encarga webpack de eso.
+        import Cupcake from "./Cupcake";		-> Importamos el componente que antes creamos.
+        
+        const App = () => {
+            < div>
+                < Cupcake color="rosa" sabor="vainilla">		
+                < Cupcake color="azul" sabor="chocolate">			-> Veremos solamente los divs
+            < /div>
+        };
+        
+        export default App;
+        </code>            
+        --------------------------------------------------------
+            En la carpeta src, en el archivo Cupcake.js
+                    -> Para ver cada propiedad de cada cupcake de manera dinámica.
+            
+        <code>                    
+        function Cupcake(props) {				
+        
+            console.log(props)		-> Veremos el objeto que traemos.. Con el sabor y el color.
+            
+        
+            return (							-> {`Sabor: ${props.sabor} `}
+                < div className="cupcake">					- Lo de adentro es lo de Js
+                    < h2>{props.color}< /h2>					- Lo de afuera es el formato jsx
+                    < p>{`Sabor: ${props.sabor} `}< /p>
+                < /div>
+            )
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="3">3. Destructuración de props</p>
+    <pre>
+        --------------------------------------------------------
+        -> En app.js, le podemos agregar una foto.. Una url desde internet.
+           
+        <code>
+        import Cupcake from "./Cupcake";		
+        import "./App.css"					-> Importamos además la hoja de estilos.
+        
+        const App = () => {
+            < div className="container">						-> Le agregamos la clase para darle estilos al padre.
+                < Cupcake color="rosa" sabor="vainilla" foto="https" />		
+                < Cupcake color="azul" sabor="chocolate foto="https" />			
+            </ div>
+        };
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            En la carpeta src, en el archivo Cupcake.js
+                    -> Agregamos además la foto..
+        <code>
+            
+        function Cupcake(props) {						-> En vez de recibir las props haremos la desestructuración.
+            return (							
+                < div className="cupcake">					
+                    < img src={props.foto} alt={props.sabor} />		-> Como texto alternativo.
+                    < h2>{props.color}< /h2>					
+                    < p>{`Sabor: ${props.sabor} `}< /p>
+                < /div>
+            )
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+            En la carpeta src, creamos el arcivo App.css	
+        
+        <code>
+        .container {
+            display: grid;						-> Armamos la grilla para que sea mejor visualmente
+            grid-template-columns: repeat(3, 300px);
+            gap: 20px;
+        }
+        </code>
+        --------------------------------------------------------
+                ->  Destructuración de los props, más claro.
+        
+        <code>        
+        function Cupcake( { sabor, color, foto } ) {					-> El orden no interesa
+            return (							
+                < div className="cupcake">					
+                    < img src={foto} alt={sabor} />		
+                    < h2>{color}< /h2>					-> Quitamos los props.. 
+                    < p>{`Sabor: ${sabor} `}< /p>
+                < /div>
+            )
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="4">4. Componentes de clase</p>
+    <pre>
+
+        --------------------------------------------------------
+        -> Lo anterior fue de manera funcional ahora lo haremos de manera en la programacion orientada a objetos, es decir utilizando las clases.
+    
+        ->En el archivo Cupcake.js
+        
+        <code>
+        import React from "react"
+        
+        class Cupcake extends React.Component {
+        
+        }
+        </code>
+        --------------------------------------------------------
+            -> Como lo vimos anteriormente mejor opción.
+        
+            ->En el archivo Cupcake.js	-> Usamos desestructuración, apuntando al objeto de "react"
+        
+        *Así quedaría escrito en forma de Clase*
+        
+        <code>
+        import { Component } from "react"			
+                
+        class Cupcake extends Component {
+        
+            render() {
+                return (
+                    < div className="cupcake">					
+                        < img src={foto} alt={sabor} />		
+                        < h2>{color}< /h2>					
+                        < p>{`Sabor: ${sabor} `}< /p>
+                    < /div>
+                )
+            }		
+        
+        }
+        
+        
+        export default Cupcake
+        </code> 
+        --------------------------------------------------------
+                -> No podemos acceder a los props, pero si usamos THIS.
+                    - Así convertimos un componente funcional en uno de clase.
+        
+        <code>
+        import { Component } from "react"			
+                
+        class Cupcake extends Component {
+        
+            render() {
+                return (
+                    < div className="cupcake">					
+                        < img src={this.prop.foto} alt={this.prop.sabor} />		
+                        < h2>{this.prop.color}< /h2>					
+                        < p>{`Sabor: ${this.prop.sabor}`}< /p>
+                    < /div>
+                )
+            }		
+        
+        }
+        
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+                - class component y function component
+            - Uno de funcional puede pasar a uno de clase y a la inversa
+        
+        Los componentes de tipo funcional son un tanto más amigables que los componentes de tipo clase
+            -> Aún así, ambos se utilizan, de acuerdo a la versión que se esté utilizando de React.               
+        --------------------------------------------------------    
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="5">5. El estado de los componentes</p>
+    <pre>
+
+        --------------------------------------------------------
+        -> Ahora le agregaremos un estado al componente
+
+        <code>
+        import { Component } from "react"			
+                
+        class Cupcake extends Component {
+        
+            constructor(props) {
+            
+                super(props)				-> Con super le pasamos las propiedades al Component
+                this.state = {				-> Los estados para este ejemplo pueden ser todos lo que necesitemos, vendido, no, en espera, etc.
+                    vendido: false
+                }
+            }
+            
+        
+            render() {
+        
+                console.log(this.state.vendido)		-> Un poco de lógica, veremos el false
+        
+                return (
+                    < div className="cupcake">					
+                        < img src={this.prop.foto} alt={this.prop.sabor} />		
+                        < h2>{this.prop.color}< /h2>					
+                        < p>{`Sabor: ${this.prop.sabor}`}< /p>
+                        < p>Estado: Vendido - A la venta< /p>			-> Variable que irá entre True y False
+                        < button>Vender< /button>					-> El botón deberá aparecer solo en los que están a la venta
+                    < /div>
+                )
+            }		
+        
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+        <code>
+        import { Component } from "react"			
+                
+        class Cupcake extends Component {
+            constructor(props) {	
+                super(props)				
+                this.state = {				
+                    vendido: false						-> false = a la venta
+                }								-> true =  vendido
+            }
+            
+            render() {
+                return (
+                    < div className="cupcake">					
+                        < img src={this.prop.foto} alt={this.prop.sabor} />		
+                        < h2>{this.prop.color}< /h2>					
+                        < p>{`Sabor: ${this.prop.sabor}`}< /p>
+                        < p>
+                            < b> Estado: < /b>			-> Tipo bold
+                            { 
+                                this.state.vendido ? "Vendido" : "A la Venta" 			-> Validación ternaria
+                            }< /p>			
+                        < button>Vender< /button>					
+                    < /div>
+                )
+            }		
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+            Para el caso que el cupcake se vendió el botón para vender debería desaparecer, de esta manera utilizaremos el renderizado condicional.
+        
+        <code>
+        import { Component } from "react"			
+                
+        class Cupcake extends Component {
+            constructor(props) {	
+                super(props)				
+                this.state = {				
+                    vendido: true						
+                }								
+            }
+            
+            render() {
+                return (
+                    < div className="cupcake">					
+                        < img src={this.prop.foto} alt={this.prop.sabor} />		
+                        < h2>{this.prop.color}</ h2>					
+                        < p>{`Sabor: ${this.prop.sabor}`}< /p>
+                        < p>
+                            < b> Estado: < /b>			-> Tipo bold
+                            { 
+                                this.state.vendido ? "Vendido" : "A la Venta" 			
+                            }
+                        < /p>			
+                        {
+                            !this.state.vendido && < button>Vender< /button>
+                        }
+                            
+                    < /div>				->!this.state.vendido	-> Si es verdadero, que no esté vendido (negando la condición)
+                )					- si el estado vendido: true, los botones desaparecen
+            }		
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="6">6. Actualizando el estado</p>
+    <pre>
+
+        --------------------------------------------------------
+        -> Ahora para cambiar el estado debemos crear el método que deseemos.
+
+        <code>
+        import { Component } from "react"			
+                
+        class Cupcake extends Component {
+            constructor(props) {	
+                super(props)				
+                this.state = {				
+                    vendido: false						
+                }								
+                this.vender = this.vender.bind(this)			-> Le bindeamos el método que creamos, HACERLO.
+            }
+        
+            vender() {
+                this.setState({
+                    vendido: true				-> Al hacer click en el botón le seteamos el estado al componente, un objeto
+                })
+            }
+            
+            render() {
+                return (
+                    < div className="cupcake">					
+                        < img src={this.prop.foto} alt={this.prop.sabor} />		
+                        < h2>{this.prop.color}< /h2>					
+                        < p>{`Sabor: ${this.prop.sabor}`}< /p>
+                        < p>
+                            < b> Estado: < /b>			
+                            { 
+                                this.state.vendido ? "Vendido" : "A la Venta" 			
+                            }
+                        < /p>			
+                        {
+                            !this.state.vendido && < button onClick={this.vender}>Vender< /button>
+                        }
+                            
+                    < /div>				
+                )					
+            }	
+        }
+        
+        export default Cupcake
+        </code>
+        
+        --------------------------------------------------------            
+            -> Repasando.
+        El componente necesita un constructor para asi pasarle el estado..
+            El estado son valores independientes de cada componente que cambiarán.
+        
+        El estado viene a ser un objeto en el que podemos generar los valores deseados..
+            - Para modificar el estado lo podemos hacer a través de un botón.	-> onclick
+                -Dentro del botón Sin el () para que no se ejecute en el primer render
+        
+            - A través de ese onClick ejecutamos un método que le seteara un nuevo valor a nuestro componente
+        
+            - Este nuevo método le setea un Estado.. a través del setState creamos un objeto el cual modificará al componente.
+                
+            - Además debemos realizar el bind del constructor del componente.. Al mismo objeto. 
+                - Un bin para cada método que quisieramos incluir.	
+        --------------------------------------------------------            
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="7">7. React developers tools</p>
+    <pre>
+
+        --------------------------------------------------------
+        Para monitorear los cambios.. Podríamos usar el console.log
+        
+        <code>
+        import { Component } from "react"			
+                
+        class Cupcake extends Component {
+            constructor(props) {	
+                super(props)				
+                this.state = {				
+                    vendido: false						
+                }								
+                this.vender = this.vender.bind(this)			
+            }
+        
+            vender() {
+                this.setState({
+                    vendido: true				
+                })
+            }
+            
+            render() {
+        
+                console.log(this.state)							-> Para observar dentro del render el cambio del estado.
+                return (
+                    < div className="cupcake">					
+                        < img src={this.prop.foto} alt={this.prop.sabor} />		
+                        < h2>{this.prop.color}< /h2>					
+                        < p>{`Sabor: ${this.prop.sabor}`}< /p>
+                        < p>
+                            < b> Estado: < /b>			
+                            { 
+                                this.state.vendido ? "Vendido" : "A la Venta" 			
+                            }
+                        < /p>			
+                        {
+                            !this.state.vendido && < button onClick={this.vender}>Vender< /button>
+                        }       
+                    < /div>				
+                )					
+            }		
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+            Por lo tanto cada vez que el estado del componente cambia el render vuelve a Ejecutarse..
+                -> Ya que al hacer click sobre el boton del componente, el console log de se renderiza y observamos el cambio en cuestión.
+            
+            * Pero el console.log no podemos abusar*
+        --------------------------------------------------------
+            -> Usamos el REACT DEVELOEPER TOOLS
+                - Extensión para Chrome
+        
+            Dos nuevas pestañas en el dev tools..
+        
+        Components
+            - Arbol de todo lo que se renderiza
+            -> Vemos además quien renderiza los componentes y el cambio de estado en los componentes
+            
+        Profiler
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="8">8. Ciclo de vida de los componentes</p>
+    <pre>
+
+        --------------------------------------------------------
+        -> El ciclo de vida de los componentes solo aplica a los componenetes de tipo clase.. 
+            - En lo de tipo función, lo intentan replicar, pero no aplica tal cual.
+        
+        
+        Ciclo de Vida
+        
+        - Nace, crecer y morir		-> De igual manera los componentes
+        
+        Lyfe Cycle de los componentes.. Encontraremos métodos que nos indicarán cada etapa.
+        
+        - El componente:
+            
+        Se va montar: 		-> componentWillMount()
+        Montaje: 		-> render()
+        Se ha montado: 		-> componentDidMount()
+        
+        Se va actualizar: 	-> componentWillUpdate()
+        Montaje: 		-> render()
+        Se ha actualizado:	-> componentDidUpdate
+        
+        Se desmontará: 		-> componentWillUnmount()
+        
+        
+                    -> Todos estos métodos ya hacen parte de la clase Component, solo los utilizamos..
+                        - Cada método "sabe" cuando correr, corren por sí solo.
+        
+        --------------------------------------------------------
+        <code>
+        import { Component } from "react"			
+                
+        class Cupcake extends Component {
+            constructor(props) {	
+                super(props)				
+                this.state = {				
+                    vendido: false						
+                }								
+                this.vender = this.vender.bind(this)			
+            }
+        
+            vender() {
+                this.setState({
+                    vendido: true				
+                })
+        
+            }
+        
+            
+            componentWillMount(){
+                console.log("El componente se montará")
+                // Si accedemos desde aquí al componente, en sí, este es null, aún no existe
+            }
+        
+            componentDidMount(){
+                console.log("El componente se montó")
+                // Desde acá si se puede acceder al elemento, ya se montó 
+            }
+                                                -> Lo vemos desde consola en el navegador.
+            componentWillUpdate() {
+                console.log("El componente se actualizará")
+                // Ejemplo, desde acá veríamos SOLO el botón al momento de hacer click y simular vender uno de los cupcake.
+                
+            }
+        
+            componentDidUpdate() {
+                console.log("El componente se actualizó")
+                // El componente desaparece al momento de hacer click.. Ya que se elimina por completo / Se destruye
+            }
+            
+            render() {
+        
+                console.log("Montaje!")							
+                return (
+                    < div className="cupcake">					
+                        < img src={this.prop.foto} alt={this.prop.sabor} />		
+                        < h2>{this.prop.color}< /h2>					
+                        < p>{`Sabor: ${this.prop.sabor}`}< /p>
+                        < p> 
+                            < b> Estado: < /b>			
+                            { 
+                                this.state.vendido ? "Vendido" : "A la Venta" 			
+                            }
+                        < /p>			
+                        {
+                            !this.state.vendido && < button onClick={this.vender}>Vender< /button>
+                        }
+                    < /div>				
+                )					
+            }		
+        }
+        
+        export default Cupcake
+        </code>
+        --------------------------------------------------------
+        Estos métodos serán útiles para manipular la infomrmación que nos sea necesaria al momento de querer realizar cambios o bien traer información con una BD.
+        --------------------------------------------------------
+        
+        Considerar que tanto el..
+        - componentWillMounth
+        - componentWillReceiveProps
+        - compoentWillUpdate
+        
+            -> Dejarán de "existir", parcialmente o gradualmente.. Desde la versión 16.
+        
+        Las opciones que se emplean se verán desde el lado de la programación funcional.
+        Nuevos métodos de lifecycle..
+        
+            - getDerivedStateFromProps		- Ambos.. 
+            - getSnapshotBeforeUpdate		- Agregan complejidad que derivan errores..
+                                - Considerar por lo tanto Alternativas.
+        
+        Deberíamos agregar el UNSAFE_ si usamos los métodos anteriores	-> UNSAFE => INSEGURO
+            -> Ejemplo UNSAFE_componentWillUpdate
+        
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <br>
+    <br>
+
+    
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="../2/index.html">Volver</a>
+        <a href="../../index.html">Inicio</a>
+        <a href="../4/index.html">Siguiente</a>
+    </div>
+
+</body>
+</html>
