@@ -19,122 +19,797 @@
         <p>React- Notas</p>
     </div>
 
-    <h1>8 - Repasando Javascript</h1>
-    <ol>
+    <h1>1 - Repasando Javascript</h1>
+    <ul>
+        <li>
+            <a href="#1">1. Inicio de proyecto - Bases de JavaScript</a>
+        </li>
+        <li>
+            <a href="#2">2. Variables y constantes</a>
+        </li>
+        <li>
+            <a href="#3">3. Template String</a>
+        </li>
+        <li>
+            <a href="#4">4. Objetos lilterales</a>
+        </li>
+        <li>
+            <a href="#5">5. Arreglos</a>
+        </li>
+        <li>
+            <a href="#6">6. Funciones</a>
+        </li>
+        <li>
+            <a href="#7">7. Desestructuración de Objetos</a>
+        </li>
+        <li>
+            <a href="#8">8. Desestructuración de Arreglos</a>
+        </li>
+        <li>
+            <a href="#9">9. Import, export y funciones comunes de arreglos</a>
+        </li>
+        <li>
+            <a href="#10">10. Múltiples exportaciones y exportaciones por defecto</a>
+        </li>
+        <li>
+            <a href="#11">11. Promesas</a>
+        </li>
+        <li>
+            <a href="#12">12. Fetch API</a>
+        </li>
+        <li>
+            <a href="#13">13. Async - Await</a>
+        </li>
+        <li>
+            <a href="#14">14. Operador condicional ternario</a>
+        </li>
+    </ul>
 
-
-    </ol>
-
-    <p id="1">1. </p>
+    <p id="1">1. Inicio de proyecto - Bases de JavaScript</p>
     <pre>
-
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="2">2. </p>
-    <pre>
-
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="3">3. </p>
-    <pre>
-
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="4">4. </p>
-    <pre>
-
-    </pre>
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="5">5. </p>
-    <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="6">6. </p>
-    <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="7">7. </p>
-    <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="7">7. </p>
-    <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="8">8. </p>
-    <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="9">9. </p>
-    <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="10">10. </p>
-    <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
+        --------------------------------------------------------
+        https://create-react-app.dev/ 		-> Configura de manera automática toda la configuración (webpack, babel, etc)
     
+        Desde consola.. En la carpeta deseada
+        
+            -> npx create-react-app nombre-de-la-aplicacion		-> intro-javascript
+        
+            -> cd intro-javascript		
+        
+            -> npm start			-> yarn start
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="2">2. Variables y constantes</p>
+    <pre>
+        --------------------------------------------------------
+            No usar var..	
+        
+        const 
+        let
+        
+        -> Tendremos EsLint para verificar errores por consola
+        
+        --------------------------------------------------------
+        <code>
+        // Variables y Constantes
+        
+        const nombre = 'Fernando';
+        const apellido = 'Herrera';
+        
+        let valorDado = 5;
+        valorDado = 4;
+        
+        console.log( nombre, apellido, valorDado )
+        
+        // var No se debe de usar...
+        if ( true ) {
+            const nombre = 'Peter';
+            console.log(nombre)
+        }
+        
+        console.log( valorDado );
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="3">3. Template String</p>
+    <pre>
+        --------------------------------------------------------
+        <code>                    
+                        -> Back Tick / Back Quote
+        const nombre   = 'Maat';
+        const apellido = 'Reef';
+        
+        
+        // const nombreCompleto = nombre + ' ' + apellido;
+        const nombreCompleto = `${ nombre } ${ apellido }`;		-> Más sencillo, ${}
+        
+        const nombreCompleto = `
+        ${ nombre } 
+        ${ apellido }							-> Veremos el salto de línea
+        `;		
+        
+        console.log( nombreCompleto );
+        </code>
+        --------------------------------------------------------
+        <code>
+        const nombre   = 'Maat';
+        
+        function getSaludo(nombre) {
+            return 'Hola ' + nombre;				-> Se puede mezclar, o con back tick
+        }
+        
+        console.log( `Este es un texto: ${ getSaludo( nombre ) }  ` );			-> Le pasamos el nombre, si no lo especificamos será 'undefined'
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="4">4. Objetos lilterales</p>
+    <pre>
+        --------------------------------------------------------
+            -> Objeto es igual a {}, cada ve que lo veamos.. Con sus funciones o métodos, de manera implicita, o diccioarios.
+                            - Tienen pares de valores.
+
+        <code>
+        const persona = {
+            nombre: 'Tony',
+            apellido: 'Stark',
+            edad: 45,
+            direccion: {				-> Añadiendo un objeto dentro, evitar caracteres especiales, como tildes.
+                ciudad: 'New York',				* En el navegador aparecerá en función del orden alfabetico, no del orden preestablecido*	
+                zip: 55321321,					
+                lat: 14.3232,
+                lng: 34.9233321
+            }
+        };
+        
+        // console.log( { persona: persona } );		-> Creamos un nuevo objeto persona, con el objeto persona dentro.
+        // console.log( { persona } );			-> Si el par igual, poniendo solo el nombre, tendremos lo mismo.
+            
+        // console.table( persona );			- Table, más ordenado.
+        
+                                    *SPREAD OPERATOR*
+        const persona2 = { ...persona };		-> Clonamos con {.. }	-> No hacer const persona2 = persona;
+        persona2.nombre = 'Peter';								-> Esto es una asignación por referencia.
+            
+        
+        console.log( persona );
+        console.log( persona2 );			-> De esta manera tendremos 2 objetos diferenciados, una copia de otra.
+        </code>
+        -------------------------------------------------------        
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="5">5. Arreglos</p>
+    <pre>
+        --------------------------------------------------------
+            -> Array como colección de información dentro de una misma variable.. [] llaves cuadradas
+
+        <code>
+        // Arreglos en JS
+        // const arreglo = new Array( 100 );		-> Arreglo de 100 posiciones.. Se puede declarar de esta manera
+        
+        const arreglo = [1,2,3,4];
+        // arreglo.push(1)				-> No usar push, este modifica el arreglo (es un objeto también) principal.
+        // arreglo.push(2)
+        // arreglo.push(3)
+        // arreglo.push(4)
+        
+        let arreglo2 = [ ...arreglo, 5 ];		-> Usamos el SPREAD operator.. También para clonar, evitando el uso de push.
+                                    -  Manera correcta de "clonar" sin modificar el original
+        
+        
+                                    - Prototype, map.. Del objeto array, creando un NUEVO ARREGLO.
+                                            -> map recorre las posiciones del arreglo.
+        const arreglo3 = arreglo2.map( function(numero) {			
+            return numero * 2;						-> El nuevo array devuelve uno nuevo multiplicado * 2
+        });
+        
+        
+        console.log( arreglo );
+        console.log( arreglo2 );
+        console.log( arreglo3 );
+        </code>
+        --------------------------------------------------------
+            https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+                    -> Array como protoype		El array es un objeto, que tendrá su método.
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="6">6. Funciones</p>
+    <pre>
+        --------------------------------------------------------
+        <code>
+                                            function saludar(nombre){		   Evitar esta manera
+        // Funciones en JS								return `Hola, ${nombre}`;  -> Podemos sobreescribirla luego sin desearlo.
+        // const saludar = function( nombre ) {					}						
+        //     return `Hola, ${ nombre }`;
+        // }					-> Mejor con.. const saludar =
+        
+        
+                            -Funciones de flecha			
+        const saludar2 = ( nombre ) => {	 + simplificado como saludar 3 
+            return `Hola, ${ nombre }`;
+        }
+        
+        const saludar3 = ( nombre ) => `Hola, ${ nombre }`;		-> Más simplificado.
+        const saludar4 = () => `Hola Mundo`;				-> Más simplificado si no tenemos argumentos.
+        
+        // console.log( saludar('Maat') )
+        
+        console.log( saludar2('Thot') );
+        console.log( saludar3('Osiris') );
+        console.log( saludar4() );
+        
+        
+        const getUser = () => ({			-> Función sin argumentos.
+                uid: 'ABC123',				- Retornamos un OBJETO entre (), sin el return
+                username: 'Maat_reef'
+        });
+        
+        
+        const user = getUser();			- La función la asignamos a una variable.
+        console.log(user);			-> 
+        </code>
+        --------------------------------------------------------
+        <code>
+        // Tarea
+        // 1. Transformen a una función de Flecha
+        // 2. Tiene que retornar un objeto implícito
+        // 3. Pruebas
+        
+        function getUsuarioActivo( nombre ) {
+            return {
+                uid: '',				
+                username: nombre
+            }
+        };
+        
+                                -> // 1
+        const getUsuarioActivo = ( nombre ) => ({	-> // 2
+            uid: 'ABC567',				-> // 3
+            username: nombre
+        })
+        
+        const usuarioActivo = getUsuarioActivo('Fernando');
+        console.log( usuarioActivo );
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="7">7. Desestructuración de Objetos</p>
+    <pre>
+        --------------------------------------------------------
+        Documentación en mdn web docs: Asignación Desestructurante
+        
+            -https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/Destructuring_assignm
+        
+        --------------------------------------------------------
+        <code>
+        // Desestructuración
+        // O bien, Asignación Desestructurante
+        const persona = {			-> Objeto
+            nombre: 'Tony',
+            edad: 45,
+            clave: 'Ironman'
+        };						-> console.log( persona.nombre );
+                                -> console.log( persona.edad );		-> Evitamos con la destructuracion repetir el patrón.
+                                -> console.log( persona.clave );
+                        -> Extraemos del objeto.
+        
+        // const { edad, clave, nombre, } = persona;			-> Más const que let en REACT
+         
+        // console.log( nombre );
+        // console.log( edad );			-> Imprimimos cada valor del objeto persona por separado, sin repetir el patrón.
+        // console.log( clave );
+        </code>
+        ---------------------------------
+        <code>
+                        -> Desestucturación directa en el argumento.. Y le asignamos valores por defecto, ejemplo del rango.
+                                                - Si existe la extrae del objeto, de lo contrario viene por defecto.
+        
+            -> La funcion useContext.. Asignada a una constante.
+        
+        const useContext = ({ clave, nombre, edad, rango = 'Capitán' }) => {
+        
+        
+            // console.log( nombre, edad, rango );		-> Imprimimos para testear.
+            
+            return {
+                nombreClave: clave,
+                anios: edad,			-> Retornamos un objeto, con otro objeto dentro.
+                latlng: {				
+                    lat: 14.1232,
+                    lng: -12.3232
+                }
+            }
+        
+        }
+        </code>
+        ---------------------------------
+        <code>
+                    -> Desestructuramos desde el useContext
+        
+        const { nombreClave, anios, latlng: { lat, lng } } = useContext( persona );			-> latlng: { lat, lng } extraemos objetos anidados
+                                                            - Asignados
+        console.log( nombreClave, anios );
+        console.log( lat, lng );
+        </code>
+        --------------------------------------------------------
+        <code>
+                También se puede hacer así.. Un paso más.
+        
+        const { nombreClave, anios, latlng } = useContext( persona );			
+        
+        const { lat, lng } = latlng;						-> Destructuramos aparte el objeto que se encuentra dentro del objeto.
+        
+        console.log( nombreClave, anios );
+        console.log( latlng );
+        console.log( lat, lng );
+        
+                                -> Esta es la destructuración anidada de Objetos, se puede realizar.
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="8">8. Desestructuración de Arreglos</p>
+    <pre>
+        --------------------------------------------------------
+        <code>
+                -> Asignación Desestructurante		-> windows + F2 = cambiamos la referencia en todos los lugares donde sea necesario.
+                                            - Es decir, en los lugares donde llamamos a la misma variable.
+        
+        const personajes = ['Beety Boop','Jeery','Tom'];		-personajes[0] personajes[1] personajes[2], evitar el patrón repetitivo.
+        const [ , , p3 ] = personajes;
+        
+        console.log( p3 );			-> Tom, -> Ya que [ , , p3 ] ignoramos el 1ª y el 2ª, vamos al 3ª
+        </code>
+        --------------------------------------------------------
+        <code>
+        const retornaArreglo = () =>{
+            return ['ABC', 123];
+        }
+        
+        const [ letras, numeros ] = retornaArreglo(); 		-> Llamamos la función, le pasamos letras, numeros.. De manera independiente
+        console.log(letras, numeros);
+        </code>
+        --------------------------------------------------------
+        <code>
+        // Tarea
+        // 1. el primer valor del arr se llamará nombre
+        // 2. se llamará setNombre
+        
+        const useState = ( valor ) => {
+            return [ valor, ()=>{ console.log('Hola Mundo') } ];
+        }
+        
+        const [ nombre, setNombre ] = useState( 'Goku' );		-> Realizando la desestructuración. 
+        
+        console.log( nombre );
+        setNombre();							-> Setnombre, no hace nada, pero se lo agregamos.
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="9">9. Import, export y funciones comunes de arreglos</p>
+    <pre>
+        --------------------------------------------------------
+                -> Al momento de escribir un archivo	-> data/heroes.js	-> Creamos la carpeta y el archivo directamente.
+                
+            Dentro de la carpeta src, creamos una carpeta llamada data	-> Creamos un archivo llamado heroes.js	
+        
+        <code>
+        export const heroes = [						-> También debemos exportarlo.
+            {
+                id: 1,
+                name: 'Batman',
+                owner: 'DC'
+            },
+            {
+                id: 2,
+                name: 'Spiderman',
+                owner: 'Marvel'
+            },
+            {
+                id: 3,
+                name: 'Superman',
+                owner: 'DC'
+            },
+            {
+                id: 4,
+                name: 'Flash',
+                owner: 'DC'
+            },
+            {
+                id: 5,
+                name: 'Wolverine',
+                owner: 'Marvel'
+            },
+        ];
+        </code>
+        --------------------------------------------------------
+        Mozilla web docs:
+            - https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+        
+        --------------------------------------------------------
+        <code>
+                En el archivos index.js
+                                            -Sin la extensión, no necesario.
+        // import { heroes } from './data/heroes';			-> Debemos importar el archivo que recién creamos.. heroes
+        // import { heroes } from './data/heroes';			-> shurtcout ' imp ' 	-> Para crear el import directamente.	heroes + tab, import directo
+        // import heroes, { owners } from '../data/heroes';	
+        import heroes from '../data/heroes';
+        
+        // console.log( owners );
+        </code>
+        ------------------------------------
+        <code>
+        //const hetHeroeById = (id) => {		
+        //	return heroes.find( (heroe) => {		-> El find recibe un callback
+        //		if (heroe.id === id ) {
+        //			return true;			-> Manera más larga.
+        //		} else {
+        //			return false;
+        //		}	
+        //	});
+        //}
+        
+                            -> usamos el filter para traer muchos	
+                            -> Usamos el find para traer 1 data
+                                (heroe)	=> es el argumento de la función.
+        
+        export const getHeroeById = (id) => heroes.find( (heroe) => heroe.id === id );				-> Más simplificado.
+        
+        // console.log( getHeroeById(2) );
+        </code>
+        ------------------------------------
+                Otra función... El find solo devuelve 1, el filter los Necesarios o encontrados.
+        
+        // find?, filter
+        export const getHeroesByOwner = ( owner ) => heroes.filter( (heroe) => heroe.owner === owner );
+        
+        // console.log( getHeroesByOwner('Marvel') );
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="10">10. Múltiples exportaciones y exportaciones por defecto</p>
+    <pre>
+        --------------------------------------------------------
+            Dentro de la carpeta src, creamos una carpeta llamada data	-> Creamos un archivo llamado heroes.js	
+
+        <code>                            
+                                - Exportación Por defecto
+        const heroes = [				-> Al exportar por default, evitamos el -> const heroes = [
+            {							export default [			-> No recomendado
+                id: 1,
+                name: 'Batman',
+                owner: 'DC'
+            },
+            {
+                id: 2,
+                name: 'Spiderman',
+                owner: 'Marvel'
+            },
+            {
+                id: 3,
+                name: 'Superman',
+                owner: 'DC'
+            },
+            {
+                id: 4,
+                name: 'Flash',
+                owner: 'DC'
+            },
+            {
+                id: 5,
+                name: 'Wolverine',
+                owner: 'Marvel'
+            },
+        ];
+        
+        
+        export const owners = ['DC', 'Marvel'];			
+        
+        export default heroes;				-> Mejor así	
+        </code>
+        ---------------------------- Otra manera
+
+        <code>
+        // export default heroes:
+        export {
+            heroes, 
+            owners			-> Otra manera  import { heroes, owners } from './data/heroes'
+        }
+        
+        // export default heroes:
+        export {
+            heroes as default, 
+            owners			-> Otra manera  import heroes, { owners } from './data/heroes'		-> Otra manera.
+        }
+        </code> 
+        --------------------------------------------------------
+                En el archivos index.js
+
+        <code>                                    
+        // import { heroes } from './data/heroes';			
+        // import { heroes } from './data/heroes';			
+        // import heroes, { owners } from '../data/heroes';		->Así para traer la exportción por defecto y un exportacion individual { owners }
+                                            Dentro del mismo archivo.
+        
+        import heroes from '../data/heroes';			-> Sin llaves para importar la exportación por defecto.	
+                                    -  heroes, le damos el nombre que deseemos.. 
+        
+        // console.log( owners );	
+        </code>
+        ------------------------------------
+        <code>
+        //const hetHeroeById = (id) => {		
+        //	return heroes.find( (heroe) => {		
+        //		if (heroe.id === id ) {
+        //			return true;			
+        //		} else {
+        //			return false;
+        //		}	
+        //	});
+        //}					
+        
+        export const getHeroeById = (id) => heroes.find( (heroe) => heroe.id === id );				-> Exportamos los 2 para el próximo punto
+        
+        // console.log( getHeroeById(2) );
+        </code>
+        ------------------------------------
+        
+        // find?, filter
+        export const getHeroesByOwner = ( owner ) => heroes.filter( (heroe) => heroe.owner === owner );			-> Exportamos
+        
+        // console.log( getHeroesByOwner('Marvel') );
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="11">11. Promesas</p>
+    <pre>
+        --------------------------------------------------------
+        - Mozzila 
+            - https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Promise
+        
+        --------------------------------------------------------
+        <code>
+        import { getHeroeById } from './bases/08-imp-exp'
+        
+        const promesa = new Promise( (resolve, reject) => {			- Promise( () => {} )	El argumento de la promesa son 2 callback (uno u otro)
+        
+            setTimeout( () => {
+                // Tarea
+                // importen el 
+                const p1 = getHeroeById(2);
+                //console.log(p1);
+        
+                resolve( p1 );	
+                //reject('No se puedo encontrar el Héroe');
+            }, 2000)
+        
+        });
+        
+        promesa.then( (heroe) => {
+            console.log('heroe', heroe)	
+        })		
+        .catch( err => console.warn( err ));	
+        </code>
+        --------------------------------------------------------
+        <code>
+        import modulen from './bases/08-imp-exp'
+        
+        const getHeroeByIdAsync = ( id ) => {
+        
+            return new Promise( (resolve, reject) => {				-> return new Promise, más estandard
+        
+                setTimeout( () =>  {
+                    // Tarea
+                    // importen el 
+                    const p1 = getHeroeById( id );
+                    if ( p1 ) {
+                        resolve( p1 );					-> Resolvemos 
+                    } else {
+                        reject( 'No se pudo encontrar el héroe' );	-> Rechazamos
+                    }
+                }, 2000 )
+            
+            });
+        
+        
+        }
+        
+        
+        getHeroeByIdAsync(1)
+            .then( console.log )		-> Lo mismo con el log
+            .catch( console.warn );		-> El warn es una función que recibe como argumento lo que venga del catch.
+        </code>
+        --------------------------------------------------------
+                -> La manear más larga
+
+        <code>
+        getHeroeByIdAsync(1)
+            .then( heroe => console.log('Heroe', heroe) )		
+            .catch( err => console.warn( err ) );		
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="12">12. Fetch API</p>
+    <pre>
+        --------------------------------------------------------
+        Con fetch API:	Para consultar los endpoints de diversas API
+            https://developer.mozilla.org/es/docs/Web/API/Fetch_API
+        
+        Api para usar Gifs: No tiene un endpoint abierto, pero podemos crearnos una api key.. Usamos la API
+            https://developers.giphy.com/
+        
+        Json viewer awesome: Extensión Opcional.
+            Para ver mejor los archivos JSON en chrome.
+        
+        --------------------------------------------------------
+        <code>
+        const apiKey = 'C1khQe3Z7R1W2lfTO9myKeuShdqFYSGC';			-> La llave api para ver los gifs, generar el PROPIO
+        
+        const peticion = fetch(`http://api.giphy.com/v1/gifs/random?api_key=${ apiKey }`);	-> La url de la página de gifs, más el api key que usaremos.
+                                                    -  Hacemos el fetch							
+        
+        peticion	
+            .then( resp => resp.json() )			-> Promesas en cadena, un then tras otro..
+            .then( ({ data }) => {
+                const { url } = data.images.original;		-> Armamos en función de lo que deseamos del objeto, destructuradamente.
+                
+                const img = document.createElement('img');
+                img.src = url;
+        
+                document.body.append( img );				-> Le agregamos al body.
+        
+        
+            })
+            .catch( console.warn );
+        </code>            
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="13">13. Async - Await</p>
+    <pre>
+        --------------------------------------------------------
+        // const getImagenPromesa = () => new Promise( resolve => resolve('https://urlficticia.com') )
+        // getImagenPromesa().then( console.log );
+                                    -> Otro ejemplo.
+                            
+        --------------------------------------------------------
+                    -> async(), siempre va de la mano con el await.
+
+        <code>         
+        const getImagen = async() => {
+        
+            try {							->Intentamos con el try y el catch expresa el error.
+        
+                const apiKey = 'C1khQe3Z7R1W2lfTO9myKeuShdqFYSGC';
+                const resp   = await fetch(`http://api.giphy.com/v1/gifs/random?api_key=${ apiKey }`);		-> Await, espera y luego continua con el resto del..
+                const { data } = await resp.json(); 								-  codigo.. Otro await.
+        
+                const { url } = data.images.original;
+        
+                const img = document.createElement('img');
+                img.src = url;
+                document.body.append( img );
+        
+            } catch (error) {
+                // manejo del error
+                console.error(error) 
+            }
+        }
+        
+        getImagen();
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="14">14. Operador condicional ternario</p>
+    <pre>
+        --------------------------------------------------------
+            -> Manera corta de realizar una decisión..
+
+        <code>
+        const activo = true;
+        
+        // let mensaje = '';
+        
+        // if ( !activo ) {
+        //     mensaje = 'Activo';
+        // } else {
+        //     mensaje = 'Inactivo';
+        // }
+                                        -> Operador condicional teranario
+        // const mensaje = ( activo ) ? 'Activo' : 'Inactivo'; 		-  Activo
+        // const mensaje = ( !activo ) ? 'Activo' : 'Inactivo'; 	-  Inactivo
+        
+        
+        // const mensaje = ( activo ) ? 'Activo' : null; 		-> De esta manera, con el null
+        
+        const mensaje = activo && 'Activo';				-> Activo
+        const mensaje = !activo && 'Activo';				-> false  util para manejar el false y condicionar un resultado.
+        
+        const mensaje = (activo === true) && 'Activo';
+        
+        console.log(mensaje);
+                                -> true && 'Hola Mundo'		-> "Hola Mundo"
+                                -> false && 'Hola Mundo'	-> false		- Útil para manejar condiciones.
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
     <br> 
     <br>
 
