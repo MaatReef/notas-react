@@ -16,77 +16,65 @@
         <!-- <a href="../10/index.html">Siguiente</a> -->
     </div>
     <div class="contenido" id="arriba">
-        <p> - Notas</p>
+        <p>React - Notas</p>
     </div>
-<!--  -->
-    <h1>9 - </h1>
-    <ol>
+    <h1>2 - Introducción y Básicos de React:</h1>
+    <ul>
+        <li>
+            <a href="#1">1. La estructura de Create react app</a>
+        </li>
+        <li>
+            <a href="#2">2. Creando nuestro primer Componente</a>
+        </li>
+        <li>
+            <a href="#3">3. Básicos de JSX</a>
+        </li>
+        <li>
+            <a href="#4">4. Creando un Segundo Componente</a>
+        </li>
+        <li>
+            <a href="#5">5. Que son los Props</a>
+        </li>
+        <li>
+            <a href="#6">6. Introducción a React Hooks</a>
+        </li>
+        <li>
+            <a href="#7">7. Primeros pasos con el State de React</a>
+        </li>
+        <li>
+            <a href="#8">8. Como mostrar una colección del State</a>
+        </li>
+        <li>
+            <a href="#9">9. Eventos en React</a>
+        </li>
+        <li>
+            <a href="#10">10. Creando un segundo state y función para agregar elementos a ese State</a>
+        </li>
+        <li>
+            <a href="#11">11. Finalizando nuestra función para agregar elementos al carrito y actualizar state</a>
+        </li>
+        <li>
+            <a href="#12">12. Mostrando los elementos del carrito</a>
+        </li>
+        <li>
+            <a href="#13">13. Eliminando Elementos del carrito</a>
+        </li>
+    </ul>
 
-
-    </ol>
-
-    <p id="1">1. </p>
+    <p id="1">1. La estructura de Create react app</p>
     <pre>
-
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="2">2. </p>
-    <pre>
-
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="3">3. </p>
-    <pre>
-
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="4">4. </p>
-    <pre>
-
-    </pre>
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="5">5. </p>
-    <pre>
+        --------------------------------------------------------
+        En el archivo 	index.js		-> Es el que muestra el contenido principal
+                    App.js			-> Es el principal componente para cargar otros componentes
+                    serviceWorker.js	-> Para que nuestra App funcione sin internet, con algunas limitaciones	
         
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="6">6. </p>
-    <pre>
+        ReactDom.render(< App />, document.getElementById('react'));	-> Toma 2 parámetros, que mostrará 		-> < App />
+                                                    y donde lo mostrará	-> en el elemento con id 'react'
+        --------------------------------------------------------
         
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="7">7. </p>
-    <pre>
+            < App /> es el App.js	-> El componente, para separar el código.
         
+        -------------------------------------------------------
     </pre>
     <br> 
     <br> 
@@ -94,47 +82,1068 @@
         <a href="#arriba">Arriba</a>
     </div>
 
-    <p id="7">7. </p>
+    <p id="2">2. Creando nuestro primer Componente </p>
     <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="8">8. </p>
-    <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="9">9. </p>
-    <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
-    <p id="10">10. </p>
-    <pre>
-        
-    </pre>
-    <br> 
-    <br> 
-    <div class="context">
-        <a href="#arriba">Arriba</a>
-    </div>
-
+        --------------------------------------------------------
+        Dentro de la carpeta src, creamos otra carpeta llamada components 
     
+        Creamos un archivo como ponente Header.jsx		-> El componente va con mayúscula.
+        
+        <code>
+        import React from 'react';		-> Siempre se coloca para importar todos los metódos y funciones de React.
+                            - Los componentes antes se creaban como clases hoy en día como funciones.
+        
+        function Header() {
+        
+                            -> Antes podremos crear código js
+        
+            return (		-> Lo que se verá en pantalla
+                < h1>Hola Mundo< /h1>;
+            )
+        }
+            
+        export default Header;
+        </code>
+        --------------------------------------------------------
+            El componente que recién creamos lo utilizamos en el componente principal App.js
+        
+        <code>
+        import React from 'react';
+        import Header from './components/Header;		-> Nos traemos el componente al componente principal
+             
+        function App() {
+            return (
+                < div className="App">
+                    < Header />			-> Agregamos el componente en el Render
+                < /div>		
+            )
+        } 
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="3">3. Básicos de JSX</p>
+    <pre>
+        --------------------------------------------------------
+        Mezcla de Javascript con Html
+        --------------------------------------------------------
+            En el arcivo Header.jsx		
+        
+        <code>    
+        import React from 'react';		
+        
+        
+        
+        function Header() {
+        
+            const edad = 18;								
+        
+            let mensaje;					-> Antes del return podremos crear lógica js, como lo deseemos, lugar "seguro"
+            if(edad >= 18) {
+                mensaje = 'Eres mayor de edad'
+            } else {
+                mensaje = 'Eres menor de edad'
+            }
+                            
+            return (				-> {} lo que está entre {}, es código js
+                                -  Acá no se puede poner un if, salvo que, usemos un operador ternario.
+                < h1>{mensaje}< /h1>;
+            )
+        }
+            
+        export default Header;
+        </code>
+        --------------------------------------------------------
+            Otro ejemplo..
+            En el archivo Header.jsx
+        
+        <code>    
+        import React from 'react';		
+        
+        
+        function Header() {
+                                -> Debemos usar className, no class
+                                    Con id, no hay problema.
+                                React se encarga de compilarlo de manera correcta.
+                                
+            return (				
+                                
+                < h1 className="encabezado" id="encabezado">Tienda Virtual< /h1>;
+            )
+        }
+            
+        export default Header;
+        </code> 
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="4">4. Creando un Segundo Componente</p>
+    <pre>
+        --------------------------------------------------------
+        Instalar extensiones
+            - Bracket Pari Colorizer
+            - ES7 React/Redux
+            - Simple React Snippets
+            - Reactjs code snippets
+            - React/Redux/react-router Snippets
+        --------------------------------------------------------
+            Dentro de la carpeta creamos el Footer.js	-> También funciona con .js, .jsx también.
+        
+        <code>
+        import React from 'react';		-> Si colomcamos imr, con las extensiones que instalamos, automcompleta.
+        
+                    -> Como function expresion, en esta caso podemos quitar {} y el return
+                                 no con function declaration.
+        const Footer = () => (
+                        -> Con sfc, autocompletamos
+                < footer>	
+                    < p>Todos los derechos reservador & copy;< p>;
+                < /footer>
+        );
+        
+        export default Footer; 
+        </code>
+        --------------------------------------------------------
+            -> En el componente principal App.js
+        
+        <code>    
+        import React, { Fragment } from 'react';
+        import Header from './components/Header;		
+        import Footer from './components/Footer;		
+        
+                        -> Como función declaration
+        function App() {
+            return (
+                < Fragment>				-> Usamos el Fragment, para no crear codigo html demás.
+                    < Header />			
+        
+                    < Footer />			
+                < /Fragment>		
+            )
+        } 
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="5">5. Que son los Props</p>
+    <pre>
+        --------------------------------------------------------
+        En React las propiedades fluyen desde el componente principal hacia los internos..
+                    Es decir desde el padrea, hacia los hijos.
+        Booleanos, strings, incluso funciones.. Todo tipo valor. 	
+        --------------------------------------------------------
+            -> En el componente principal App.js
+        
+        <code>   
+        import React, { Fragment } from 'react';
+        import Header from './components/Header;		
+        import Footer from './components/Footer;		
+        
+                        -> Como función declaration
+        function App() {
+            return (
+                < Fragment>				
+                    < Header 
+                        titulo='Tienda Virtual'
+                        numero=20
+                    />			
+        
+                    < Footer />			
+                < /Fragment>		
+            )
+        } 
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            En el archivo Header.jsx
+        
+        <code>    
+        import React from 'react';		
+        
+        
+        function Header(props) {			-> Le pasamos los props
+        
+            console.log(props);
+                                                
+            return (				
+                                
+                < h1 className="encabezado">Tienda Virtual< /h1>;
+            )
+        }
+            
+        export default Header;
+        </code>
+        --------------------------------------------------------
+        Instalamos la extensión React Developer Tools en Chrome
+            - Podemos ver el árbol de componentes
+            - En el Header podremos ver los props			-> Aquí la utilidad, para ver los props que algunas librerías nos puedan agregar.
+        --------------------------------------------------------
+            En el archivo Header.jsx
+        
+        <code>
+        import React from 'react';		
+        
+        
+        function Header({titulo}) {				-> Destructuring							
+            return (				
+                                
+                < h1 className="encabezado"> {titulo} < /h1>;		-> Más acorde a lo que la comunidad de React utiliza
+            )
+        }
+            
+        export default Header;
+        </code>
+        --------------------------------------------------------
+            -> En el componente principal App.js
+        
+        <code>    
+        import React, { Fragment } from 'react';
+        import Header from './components/Header;		
+        import Footer from './components/Footer;		
+        
+                    
+        function App() {
+        
+            // Obtener la fecha
+            const fecha = new Date().getFullYear();
+        
+            return (
+                < Fragment>				
+                    < Header 
+                        titulo='Tienda Virtual'
+                    />			
+        
+                    < Footer 
+                        fecha={fecha}		-> Agregamos la fecha en el principal y solo pasamos luego al componente Footer
+                    />			
+                < /Fragment>		
+            )
+        } 
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            Dentro de la carpeta creamos el Footer.js	
+        
+        <code>
+        import React from 'react';		
+                    
+        const Footer = ({fecha}) => (
+                        
+                < footer>	
+                    < p>Todos los derechos reservador & copy; {fecha} < p>;
+                < /footer>
+        );
+        
+        export default Footer; 
+        </code>
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="6">6. Introducción a React Hooks</p>
+    <pre>
+        --------------------------------------------------------
+        React Hooks:
+        
+        - Disponibles desde la versión 16.8 y seguirán en la versión 17 siendo la principal forma de escribir código en React.
+        - Te permitirán actualizar el State sin necesidad de Crear un Class Component.
+        
+        --------------------------------------------------------
+            UseState
+        
+        Hooks vienen con una función llamada useState.
+        
+        <code>
+        import React, { useState } from 'react';
+        </code>
+
+        - Esta función al extraer sus valores cuenta con 2 partes:	Por medio de un Array destructuring
+        
+        <code>
+        const [clientes, guardarCliente] = useState ([]);
+        
+            - clientes = Tiene el state actual	
+            - guardarClientes = Cambia el state (puede colocarse en inglés)
+        </code>          
+        --------------------------------------------------------
+            Beneficios de los Hooks
+        
+        - Menor cantidad de código
+        - Mayor facilidad para implementar reducers, administrar el state y context
+        
+        --------------------------------------------------------
+            Los Hooks se dividen en 2 Grupos
+        
+        Básicos 	-> en 100% de tus proyectos
+                -  useState
+                -  useEffect (reemplaza los métodos del ciclo de vida del componente)
+        
+        Avanzados	-> Tal vez no en todos tus proyectos	
+                -  useContext
+                -  useRef
+                -  useReducer		-> Usados por facebook
+                -  useCallback	
+                -  useMemo
+        --------------------------------------------------------
+        El desarrollo de Curso solo utilizará Hooks sin class components..
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="7">7. Primeros pasos con el State de React</p>
+    <pre>
+        --------------------------------------------------------
+        - Importante para que el código de React, sea rápido.
+        En el State se coloca todo lo que va a reaccionar con la interacción de los usuarios.	 
+            - Datos del formulario..
+            - Un carrito de compra..
+        
+        --------------------------------------------------------
+            -> En el componente principal App.js
+        
+        <code>
+        import React, { Fragment, useState } from 'react';	-> Importamos el useState
+        import Header from './components/Header;		
+        import Footer from './components/Footer;		
+        
+                    
+        function App() {
+        
+            // Creaar listado de productos.. Normalmente vendría desde una api o base de datos.
+                        // const [] = useState();	Sintaxis básica
+                        // En el ([]) useState colocamos los datos iniciales que podrán variar
+        
+            const [ productos, guardarProductos ] = useState([				-> El hooks tendrá el state.
+                { id: 1, nombre: 'Camisa ReactJs', precio: 50 },
+                { id: 2, nombre: 'Camisa VueJs', precio: 40 },
+                { id: 3, nombre: 'Camisa Node.Js', precio: 30 },
+                { id: 4, nombre: 'Camisa Angular', precio: 20 },
+            ]);	
+        
+            // Obtener la fecha
+            const fecha = new Date().getFullYear();
+        
+            return (
+                < Fragment>				
+                    < Header 
+                        titulo='Tienda Virtual'
+                    />			
+        
+                    < Footer 
+                        fecha={fecha}		
+                    />			
+                < /Fragment>		
+            )
+        } 
+        
+        export default App;
+        </code>
+        --------------------------------------------------------        
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="8">8. Como mostrar una colección del State</p>
+    <pre>
+        -------------------------------------------------------
+        -> En el componente principal App.js
+        
+        <code>
+        import React, { Fragment, useState } from 'react';	-> Importamos el useState
+        import Header from './components/Header;		
+        import Footer from './components/Footer;		
+        import Producto from './components/Producto;		
+                    
+        function App() {
+        
+            // Creaar listado de productos
+            const [ productos, guardarProductos ] = useState([				
+                { id: 1, nombre: 'Camisa ReactJs', precio: 50 },
+                { id: 2, nombre: 'Camisa VueJs', precio: 40 },
+                { id: 3, nombre: 'Camisa Node.Js', precio: 30 },
+                { id: 4, nombre: 'Camisa Angular', precio: 20 },
+            ]);	
+        
+            // Obtener la fecha
+            const fecha = new Date().getFullYear();
+        
+            return (
+                < Fragment>				
+                    < Header 
+                       titulo='Tienda Virtual'
+                    />			
+        
+                    < h1>Lista de Productos< /h1>
+                    {productos.map(producto => (			-> Por cada iteración, imprimimos el prodducto
+                        < Producto 
+                            key={producto.id}
+                            producto={producto}
+                        />				
+                    ))}
+        
+                    < Footer 
+                        fecha={fecha}		
+                    />			
+                < /Fragment>		
+            )
+        } 
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            Ahora en la carpeta de componentes creamos el archivo Producto.js
+        
+        <code>    
+        import React from 'react';
+        
+        const Producto = ({producto}) => {
+        
+            const { nombre, precio, id } = producto;		-> Destructuramos.
+        
+            return (
+                < div>
+                    < h2>{nombre}< h2>		-> Con destructuring solo colocamos la propiedad
+                    < p>{precio}< /p>			-> Le pasamos además el precio
+                < /div>
+            );
+        
+        }
+        
+        export default Producto;
+        </code>
+        --------------------------------------------------------            
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="9">9. Eventos en React</p>
+    <pre>       
+        --------------------------------------------------------
+        Ahora en la carpeta de componentes creamos el archivo Producto.js
+
+        <code>
+        import React from 'react';
+
+        const Producto = ({producto}) => {
+
+        const { nombre, precio, id } = producto;		
+
+        // Agregar producto al carrito
+        const seleccionarProducto = (id) => {				-> le pasamos el id a la función, para saber el producto comprado
+            console.log('comprando...', id);
+        }
+
+        return (
+            < div>
+                < h2>{nombre}< h2>		
+                < p>{precio}< /p>
+                < button 				-> le pasamos el id para apuntar al producto en cuestión.
+                    type="button"
+                    onClick={ () => seleecionarProducto(id) }		-> Solo con arrow function,
+                >Comprar< /button>						// Asi esperamos a que el click suceda  () => 
+            < /div>									// con function, se dispara automaticamente.
+        );
+
+        }
+
+        export default Producto;
+        </code>
+        --------------------------------------------------------
+        - De esta manera con onEvento, React maneja los eventos.. onClick
+
+        Ya tenemos un state para los productos, ahora necesitamos otro para el carrito de compras.	 
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="10">10. Creando un segundo state y función para agregar elementos a ese State</p>
+    <pre>
+        --------------------------------------------------------
+        Normalmente en una aplicación habrán muchos states diferentes.. Tiene diversos usos.
+        - Verificar si el usuario está verificado.
+        - Ver los registros
+        - Formulario a medida que el usuario lo llena.
+        --------------------------------------------------------
+            -> En el componente principal App.js
+        
+        <code>   
+        import React, { Fragment, useState } from 'react';	-> Importamos el useState
+        import Header from './components/Header;		
+        import Footer from './components/Footer;		
+        import Producto from './components/Producto;		
+                    
+        function App() {
+        
+            // Creaar listado de productos
+            const [ productos, guardarProductos ] = useState([				
+                { id: 1, nombre: 'Camisa ReactJs', precio: 50 },
+                { id: 2, nombre: 'Camisa VueJs', precio: 40 },
+                { id: 3, nombre: 'Camisa Node.Js', precio: 30 },
+                { id: 4, nombre: 'Camisa Angular', precio: 20 },
+            ]);	
+        
+            // State para un carrito de compras	-> El useState() toma un valor inicial, en este caso un array vacío.
+                        -  Carrito hace referencia al array vacìo, el valor del state
+                        -  agregarProducto es la funcion que interactua con el carrito agregando o quitando elementos, quien modifica el state
+            const [ carrito, agregarProducto ] = useState([]);
+        
+        
+            // Obtener la fecha
+            const fecha = new Date().getFullYear();
+        
+            return (
+                < Fragment>				
+                    < Header 
+                        titulo='Tienda Virtual'
+                    />			
+        
+                    < h1>Lista de Productos< /h1>
+                    {productos.map(producto => (			
+                        < Producto 
+                            key={producto.id}			-> Recomendacion, llamar igual los valores como las propias props..
+                            producto={producto}
+                            productos={productos}			-> lo usaremos también.
+                            carrito={carrito}			
+                            agregarProducto={agregarProducto}
+                        />				
+                    ))}
+        
+                    < Footer 
+                        fecha={fecha}		
+                    />			
+                < /Fragment>		
+            )
+        } 
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            -> Ahora en el archivo Producto.js 
+        
+        import React from 'react';
+        
+        const Producto = ({producto, carrito, agregarProducto, productos}) => {		
+                                                -> extraemos también 
+                                                    carrito (state) 
+                                                    agregarProducto (la funcion modificadora)
+                                                    productos
+        
+            const { nombre, precio, id } = producto;		
+        
+            // Agregar producto al carrito								[0] - Accedemos al arreglo del carrito,
+            const seleccionarProducto = (id) => {							Un arreglo dentro del arreglo..
+                const producto = productos.filter(producto => producto.id === id)[0];		-> usamos filter para dar con toda la info del producto.
+            }
+        
+            return (
+                < div>
+                    < h2>{nombre}< h2>		
+                    < p>{precio}< /p>
+                    < button 				
+                        type="button"
+                        onClick={ () => seleecionarProducto(id) }		
+                    >Comprar< /button>						
+                < /div>									
+            );
+        
+        }
+        
+        export default Producto;
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="11">11. Finalizando nuestra función para agregar elementos al carrito y actualizar state</p>
+    <pre>
+        --------------------------------------------------------
+        El estado de un array o un objeto no lo modificamos mediante push, o asignación..
+        Es decir, el state no se puede modificar directamente..
+        
+        Solo Usamos la función que modifica el valor del state.. en useState()
+        
+        (En class component se usaba this.setState)
+        --------------------------------------------------------
+            -> Ahora en el archivo Producto.js 
+        
+        <code>
+        import React from 'react';
+        
+        const Producto = ({producto, carrito, agregarProducto, productos}) => {		
+                                            
+            const { nombre, precio, id } = producto;		
+        
+            // Agregar producto al carrito								
+            const seleccionarProducto = (id) => {							
+                const producto = productos.filter(producto => producto.id === id)[0];		
+                agregarProducto([							-> Usamos la función modificadora. 
+        
+                    ...carrito,			-> con spread o rest operator clonamos el arreglo.
+                    producto			-  le pasamos además el producto.	
+                ]);
+            }
+        
+            return (
+                < div>
+                    < h2>{nombre}< /h2>		
+                    < p>{precio}< /p>
+                    < button 				
+                        type="button"
+                        onClick={ () => seleecionarProducto(id) }		
+                    >Comprar< /button>						
+                < /div>									
+            );
+        
+        }
+        
+        export default Producto;
+        </code>    
+        --------------------------------------------------------
+            Otra manera puede ser..
+        <code>
+        // Agregar producto al carrito								
+        const seleccionarProducto = (id) => {							
+            const producto = productos.filter(producto => producto.id === id);		
+            agregarProducto([							
+    
+                ...carrito,			- Dos copias
+                ...producto			
+            ]);
+        }
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="12">12. Mostrando los elementos del carrito</p>
+    <pre>
+        --------------------------------------------------------
+        Debemos agregar un componente más.. Para visualizarlo
+        --------------------------------------------------------
+            En la carpeta components.. creamos el archivo Carrito.js
+        
+        <code>    
+        import React from 'react';
+        
+        const Carrito = () => {
+            < div>
+                < h2>Tu Carrito de Compras< /h2>
+            < /div>
+        };
+        
+        export default Carrito;
+        </code>
+        --------------------------------------------------------
+            Ahora lo importamos en el componente principal
+            -> En el componente principal App.js
+        
+        <code>   
+        import React, { Fragment, useState } from 'react';	
+        import Header from './components/Header;		
+        import Footer from './components/Footer;		
+        import Producto from './components/Producto;		
+        import Carrito from './components/Carrito';
+                    
+        function App() {
+        
+            // Creaar listado de productos
+            const [ productos, guardarProductos ] = useState([				
+                { id: 1, nombre: 'Camisa ReactJs', precio: 50 },
+                { id: 2, nombre: 'Camisa VueJs', precio: 40 },
+                { id: 3, nombre: 'Camisa Node.Js', precio: 30 },
+                { id: 4, nombre: 'Camisa Angular', precio: 20 },
+            ]);	
+        
+            // State para un carrito de compras	
+        
+            const [ carrito, agregarProducto ] = useState([]);
+        
+        
+            // Obtener la fecha
+            const fecha = new Date().getFullYear();
+        
+            return (
+                < Fragment>				
+                    < Header 
+                        titulo='Tienda Virtual'
+                    />			
+        
+                    < h1>Lista de Productos< /h1>
+                    {productos.map(producto => (			
+                        < Producto 
+                            key={producto.id}			
+                            producto={producto}
+                            productos={productos}			
+                            carrito={carrito}			
+                            agregarProducto={agregarProducto}
+                        />				
+                    ))}
+        
+                    < Carrito />			-> Posicionamos el carrito
+        
+        
+                    < Footer 
+                        fecha={fecha}		
+                    />			
+                < /Fragment>		
+            )
+        } 
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            Ahora para posicionar el carrito en el lado derecho usaremos css..
+            Para agregar contenido css a React existen diversas formas..
+        - En la carpeta public: Creando el archivo css
+        - En la carpeta src: importando ese archivo
+        
+        --------------------------------------------------------
+            En la carpeta de components.. Creamos el archivos carrito.css
+        
+        <code>
+        .carrito {
+            position: fixed;
+            top:0;
+            rigth: 0;
+            background-color: white;
+            width: 400px;
+        }
+        </code>
+        --------------------------------------------------------
+            Importamos el estilo en Carrito.js
+            En la carpeta components.. 
+        
+        <code>
+        import React from 'react';
+        import './carrito.css';			-> Cuando el componente sea visible, incluye el archivo css
+        
+        const Carrito = () => {
+            < div className="carrito">
+                < h2>Tu Carrito de Compras< /h2>
+            < /div>
+        };
+        
+        export default Carrito;
+        </code>
+        --------------------------------------------------------
+        Por lo cual también se podría crear un archivo css para cada componente.
+        --------------------------------------------------------
+            Ahora en el archivo App.js
+        
+        <code>    
+        import React, { Fragment, useState } from 'react';	
+        import Header from './components/Header;		
+        import Footer from './components/Footer;		
+        import Producto from './components/Producto;		
+        import Carrito from './components/Carrito';
+                    
+        function App() {
+        
+            // Creaar listado de productos
+            const [ productos, guardarProductos ] = useState([				
+                { id: 1, nombre: 'Camisa ReactJs', precio: 50 },
+                { id: 2, nombre: 'Camisa VueJs', precio: 40 },
+                { id: 3, nombre: 'Camisa Node.Js', precio: 30 },
+                { id: 4, nombre: 'Camisa Angular', precio: 20 },
+            ]);	
+        
+            // State para un carrito de compras	
+        
+            const [ carrito, agregarProducto ] = useState([]);
+        
+        
+            // Obtener la fecha
+            const fecha = new Date().getFullYear();
+        
+            return (
+                < Fragment>				
+                    < Header 
+                        titulo='Tienda Virtual'
+                    />			
+        
+                    < h1>Lista de Productos< /h1>
+                    {productos.map(producto => (			
+                        < Producto 
+                            key={producto.id}			
+                            producto={producto}
+                            productos={productos}			
+                            carrito={carrito}			
+                            agregarProducto={agregarProducto}
+                        />				
+                    ))}
+        
+                    < Carrito 
+                        carrito={carrito}
+                    />			
+        
+        
+                    < Footer 
+                        fecha={fecha}		
+                    />			
+                < /Fragment>		
+            )
+        } 
+        
+        export default App;
+        </code>
+        --------------------------------------------------------
+            Importamos el estilo en Carrito.js
+            En la carpeta components.. 
+        
+        <code>    
+        import React from 'react';
+        import './carrito.css';			
+        import Producto from './Producto';			-> Importamos el Producto utilizado con anterioridad en App.js.. Modificando la ruta.
+        
+        const Carrito = ({carrito}) => {				-> Extraemos el carrito
+        
+            < div className="carrito">
+                < h2>Tu Carrito de Compras< /h2>
+        
+                {carrito.length === 0
+                ?							-> No usamos un if, se usa un TERNARIO
+                    < p>No hay elementos en el carrito< /p>
+                : carrito.map(producto => (
+                    < Producto
+                        key={producto.id}
+                        producto={producto}
+                    />
+                ))}
+        
+            < /div>
+        };
+        
+        export default Carrito;
+        </code>
+        --------------------------------------------------------
+        React no recarga la página entera, solo renderiza los componentes que cambian el valor de su estado inicial al interactuar con el usuario.
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
+
+    <p id="13">13. Eliminando Elementos del carrito</p>
+    <pre>
+        --------------------------------------------------------
+            Ahora agregaremos un botón para eliminar elementos del carrito, mediante un operador ternario.
+        --------------------------------------------------------
+            -> Ahora en el archivo Producto.js 
+        
+        <code>
+        import React from 'react';
+        
+        const Producto = ({producto, carrito, agregarProducto, productos}) => {		
+                                            
+            const { nombre, precio, id } = producto;		
+        
+            // Agregar producto al carrito								
+            const seleccionarProducto = (id) => {							
+                const producto = productos.filter(producto => producto.id === id)[0];		
+                agregarProducto([							
+        
+                    ...carrito,			
+                    producto			
+                ]);
+            }
+        
+            // Elimina un producto del carrito				-> Ahora si tendremos el carrito que lo enviamos desde Carrito.js
+            const eliminarProducto = id => {
+                const productos = carrito.filter(producto => producto.id !== id);			-> filter hacer una copia.
+        
+                // Colocar los productos en el state
+                agregarProducto(productos)
+            }
+        
+            return (
+                < div>
+                    < h2>{nombre}< /h2>		
+                    < p>{precio}< /p>
+                                    
+                    
+                    { productos		-> Si productos existe habrá un botón para comprar, de lo contrario..
+                    ?
+                        (
+                            < button 	
+                                type="button"
+                                onClick={ () => seleecionarProducto(id) }		
+                            >Comprar< /button>						
+                        )				
+                    : 
+                        (
+                            < button 	
+                                type="button"
+                                onClick={ () => eliminarProducto(id) }		-> Creamos la función para eliminar con el id.
+                            >Eliminar< /button>						
+                        )				
+                    }
+                < /div>									
+            );
+        
+        }
+        
+        export default Producto;
+        </code>
+        --------------------------------------------------------
+            Ahora en Carrito.js.. Le pasamos el carrito
+            Además de pasar los valores desde el padre hacia el hijo, es necesario también pasarlo entre los demás descendientes, siempre que se requiera.
+            - Luego veremos usar redux o reducer
+        
+        <code>    
+        import React from 'react';
+        import './carrito.css';			
+        import Producto from './Producto';			
+        
+        const Carrito = ({carrito}) => {				
+        
+            < div className="carrito">
+                < h2>Tu Carrito de Compras< /h2>
+        
+                {carrito.length === 0
+                ? < p>No hay elementos en el carrito< /p>
+                : carrito.map(producto => (
+                    < Producto
+                        key={producto.id}
+                        producto={producto}
+                        carrito={carrito}
+                        agregarProducto={agregarProducto}		-> la recibimos desde App y la pasamos a Producto.js
+                    />							-  De lo contrario marcará Undefined.
+                ))}
+        
+            < /div>
+        };
+        
+        export default Carrito;
+        </code>
+        --------------------------------------------------------
+            Ahora en el archivo App.js
+        
+        <code>    
+        import React, { Fragment, useState } from 'react';	
+        import Header from './components/Header;		
+        import Footer from './components/Footer;		
+        import Producto from './components/Producto;		
+        import Carrito from './components/Carrito';
+                    
+        function App() {
+        
+            // Creaar listado de productos
+            const [ productos, guardarProductos ] = useState([				
+                { id: 1, nombre: 'Camisa ReactJs', precio: 50 },
+                { id: 2, nombre: 'Camisa VueJs', precio: 40 },
+                { id: 3, nombre: 'Camisa Node.Js', precio: 30 },
+                { id: 4, nombre: 'Camisa Angular', precio: 20 },
+            ]);	
+        
+            // State para un carrito de compras	
+        
+            const [ carrito, agregarProducto ] = useState([]);
+        
+        
+            // Obtener la fecha
+            const fecha = new Date().getFullYear();
+        
+            return (
+                < Fragment>				
+                    < Header 
+                        titulo='Tienda Virtual'
+                    />			
+        
+                    < h1>Lista de Productos< /h1>
+                    {productos.map(producto => (			
+                        < Producto 
+                            key={producto.id}			
+                            producto={producto}
+                            productos={productos}			
+                            carrito={carrito}			
+                            agregarProducto={agregarProducto}
+                        />				
+                    ))}
+        
+                    < Carrito 
+                        carrito={carrito}
+                        agregarProducto={agregarProducto}			-> Pasamos también la función desde el padre
+                    />			
+        
+        
+                    < Footer 
+                        fecha={fecha}		
+                    />			
+                < /Fragment>		
+            )
+        } 
+        
+        export default App;
+        </code>
+        -------------------------------------------------------
+        Por lo tanto:
+            - Creamos componentes
+            - Usamos el useState
+            - Usamos eventos en React 
+            - Pasar datos vía Props 
+            - Css en React
+        --------------------------------------------------------
+        Repositorio github: 
+
+        <code>
+
+        https://github.com/codigoconjuan/basicos
+        </code>
+        --------------------------------------------------------
+    </pre>
+    <br> 
+    <br> 
+    <div class="context">
+        <a href="#arriba">Arriba</a>
+    </div>
     <br> 
     <br>
     
